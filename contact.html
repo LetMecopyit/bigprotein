@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — bigprotein.utility.forum</title>
+  <meta name="description" content="Get in touch with bigprotein.utility.forum. Questions about our ebooks, orders, or anything else? We're here to help.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-text">BIG<span>PROTEIN</span></span>
+      </a>
+      <nav>
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#pricing">Shop</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li>
+            <a href="#" class="nav-cta" data-open-cart>
+              🛒 Cart <span class="cart-count" style="display:none;">0</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="page-header">
+    <div class="container">
+      <h1>Contact Us</h1>
+      <p>Have a question? We'd love to hear from you.</p>
+    </div>
+  </div>
+
+  <div class="page-content" style="max-width: 1000px;">
+    <div class="contact-grid">
+      <div>
+        <h2 style="margin-top: 0;">Send Us a Message</h2>
+        <p style="margin-bottom: var(--space-xl);">Fill out the form below and we'll get back to you as soon as possible. If you have questions about our products before purchasing, don't hesitate to ask!</p>
+
+        <form class="contact-form" id="contact-form" onsubmit="handleContactSubmit(event)">
+          <div class="form-group">
+            <label for="contact-name">Your Name</label>
+            <input type="text" id="contact-name" name="name" placeholder="Enter your name" required>
+          </div>
+          <div class="form-group">
+            <label for="contact-email">Email Address</label>
+            <input type="email" id="contact-email" name="email" placeholder="you@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="contact-subject">Subject</label>
+            <input type="text" id="contact-subject" name="subject" placeholder="What's this about?">
+          </div>
+          <div class="form-group">
+            <label for="contact-message">Message</label>
+            <textarea id="contact-message" name="message" placeholder="Tell us what's on your mind..." required></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Send Message</button>
+        </form>
+      </div>
+
+      <div class="contact-info">
+        <h3>Other Ways to Reach Us</h3>
+
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📧</div>
+          <div class="contact-detail-text">
+            <strong>Email</strong>
+            <span>support@bigprotein.utility.forum</span>
+          </div>
+        </div>
+
+        <div class="contact-detail">
+          <div class="contact-detail-icon">⏰</div>
+          <div class="contact-detail-text">
+            <strong>Response Time</strong>
+            <span>We typically respond within 24–48 hours</span>
+          </div>
+        </div>
+
+        <div class="contact-detail">
+          <div class="contact-detail-icon">💬</div>
+          <div class="contact-detail-text">
+            <strong>Before You Buy</strong>
+            <span>Not sure if the book is right for you? Ask us anything — we're happy to help you decide.</span>
+          </div>
+        </div>
+
+        <div class="contact-detail">
+          <div class="contact-detail-icon">🔧</div>
+          <div class="contact-detail-text">
+            <strong>Technical Issues</strong>
+            <span>Having trouble downloading or opening your PDF? Let us know and we'll sort it out.</span>
+          </div>
+        </div>
+
+        <div style="margin-top: var(--space-xl); padding-top: var(--space-xl); border-top: 1px solid var(--color-cream-darker);">
+          <p style="font-size: 0.85rem; color: var(--color-text-muted);">
+            <strong>Note:</strong> For refund-related inquiries, please review our <a href="refund.html">Refund Policy</a> first. Due to the digital nature of our products, all sales are final once the PDF has been delivered.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo-text">BIG<span style="color:var(--color-primary);">PROTEIN</span></div>
+          <p>High-protein budget cooking made simple.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="index.html#pricing">Big Protein, Small Bill</a></li>
+            <li><a href="index.html#pricing">Sip Smart, Spend Less</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Learn More</h4>
+          <ul>
+            <li><a href="index.html#features">What's Inside</a></li>
+            <li><a href="index.html#preview">Book Preview</a></li>
+            <li><a href="index.html#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="refund.html">Refund Policy</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 bigprotein.utility.forum. All rights reserved.</p>
+        <div class="footer-payments">
+          <span>Visa</span><span>Mastercard</span><span>PayPal</span><span>Stripe</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="cart-overlay" id="cart-overlay"></div>
+  <aside class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header"><h3>Your Cart</h3><button class="cart-close" aria-label="Close cart">✕</button></div>
+    <div class="cart-body" id="cart-body"><div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Your cart is empty</p></div></div>
+    <div class="cart-footer">
+      <div class="cart-total"><span class="cart-total-label">Total</span><span class="cart-total-value">$0.00</span></div>
+      <div class="cart-total-savings" style="display:none;"></div>
+      <button class="btn-checkout" disabled>Proceed to Checkout</button>
+    </div>
+  </aside>
+
+  <script src="js/main.js"></script>
+  <script>
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const btn = form.querySelector('.btn-submit');
+      btn.textContent = '✓ Message Sent!';
+      btn.style.background = '#2ECC71';
+      btn.disabled = true;
+      setTimeout(() => {
+        form.reset();
+        btn.textContent = 'Send Message';
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

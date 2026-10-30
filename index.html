@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Big Protein, Small Bill — High-Protein Budget Cookbook | bigprotein.utility.forum</title>
+  <meta name="description" content="Eat big. Spend less. 7 weeks of supermarket meals hitting 120g protein a day for under $75 a week. 156 pages of budget recipes, grocery lists & meal plans.">
+  <meta name="keywords" content="high protein cookbook, budget meals, cheap protein recipes, meal prep, grocery budget, protein per dollar">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-text">BIG<span>PROTEIN</span></span>
+      </a>
+
+      <nav>
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#preview">Preview</a></li>
+          <li><a href="#features">What's Inside</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li>
+            <a href="#" class="nav-cta" data-open-cart>
+              🛒 Cart <span class="cart-count" style="display:none;">0</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero" id="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge">First Edition — Now Available</div>
+        <h1>BIG PROTEIN.<br><span class="highlight">SMALL BILL.</span></h1>
+        <p class="hero-subtitle">
+          Seven weeks of supermarket meals that hit <strong>120g of protein</strong> a day, for under <strong>$75 a week</strong>. Every recipe macro-tracked, every list priced at real Aldi & Walmart prices.
+        </p>
+        <div class="hero-price">
+          <span class="price-current">$24.99</span>
+          <span class="price-original">$29.99</span>
+          <span class="price-save">Save $5</span>
+        </div>
+        <button class="hero-cta" data-add-main data-original-text="Get the Book — $24.99">
+          Get the Book — $24.99
+        </button>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-number">156</div>
+            <div class="hero-stat-label">Pages</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-number">60+</div>
+            <div class="hero-stat-label">Recipes</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-number">$2.60</div>
+            <div class="hero-stat-label">Avg Per Meal</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-number">7</div>
+            <div class="hero-stat-label">Weeks Planned</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-book">
+        <img src="images/cover.png" alt="Big Protein, Small Bill — Book Cover" id="hero-book-img">
+        <div class="book-badge">
+          <span class="book-badge-price">$2.60</span>
+          <span class="book-badge-label">Avg / Meal</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== BOOK PREVIEW CAROUSEL ========== -->
+  <section class="preview-section" id="preview">
+    <div class="container">
+      <div class="preview-header reveal">
+        <div class="section-label" style="color: var(--color-primary-light);">Peek Inside</div>
+        <h2>See What You're Getting</h2>
+        <p>Real pages from the book. No fluff, no filler — just high-protein recipes, mapped grocery lists, and a system that works.</p>
+        <div>
+          <button class="btn-open-grid-preview" id="btn-open-grid-preview" aria-label="Open Fullscreen & Four-Box Grid View">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="3" y="3" width="8" height="8" rx="1.5"/>
+              <rect x="13" y="3" width="8" height="8" rx="1.5"/>
+              <rect x="3" y="13" width="8" height="8" rx="1.5"/>
+              <rect x="13" y="13" width="8" height="8" rx="1.5"/>
+            </svg>
+            Fullscreen & Four-Box Grid View
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="carousel-wrapper">
+      <div class="carousel-track" id="carousel-track">
+        <div class="carousel-slide" data-slide-index="0" data-title="Table of Contents">
+          <div class="carousel-slide-zoom-badge">🔍 Zoom Page</div>
+          <img src="images/contents.png" alt="Table of Contents" loading="lazy">
+          <div class="carousel-slide-label">Contents</div>
+        </div>
+        <div class="carousel-slide" data-slide-index="1" data-title="Six Promises, Zero Tahini">
+          <div class="carousel-slide-zoom-badge">🔍 Zoom Page</div>
+          <img src="images/promises.png" alt="Six Promises, Zero Tahini" loading="lazy">
+          <div class="carousel-slide-label">Our Promises</div>
+        </div>
+        <div class="carousel-slide" data-slide-index="2" data-title="The Meal Prep System">
+          <div class="carousel-slide-zoom-badge">🔍 Zoom Page</div>
+          <img src="images/system.png" alt="One List, One Hour, Fifteen-Minute Nights" loading="lazy">
+          <div class="carousel-slide-label">The System</div>
+        </div>
+        <div class="carousel-slide" data-slide-index="3" data-title="Anatomy of a Recipe Page">
+          <div class="carousel-slide-zoom-badge">🔍 Zoom Page</div>
+          <img src="images/anatomy.png" alt="Anatomy of a Recipe Page" loading="lazy">
+          <div class="carousel-slide-label">Recipe Layout</div>
+        </div>
+        <div class="carousel-slide" data-slide-index="4" data-title="Protein Per Dollar Leaderboard">
+          <div class="carousel-slide-zoom-badge">🔍 Zoom Page</div>
+          <img src="images/leaderboard.png" alt="Protein Per Dollar Leaderboard" loading="lazy">
+          <div class="carousel-slide-label">Protein Per Dollar</div>
+        </div>
+        <div class="carousel-slide" data-slide-index="5" data-title="Week 01 — Comfort Food Week">
+          <div class="carousel-slide-zoom-badge">🔍 Zoom Page</div>
+          <img src="images/week01_opener.png" alt="Week 01 — The Comfort-Food Week" loading="lazy">
+          <div class="carousel-slide-label">Week 01 Opener</div>
+        </div>
+        <div class="carousel-slide" data-slide-index="6" data-title="Weekly Game Plan at a Glance">
+          <div class="carousel-slide-zoom-badge">🔍 Zoom Page</div>
+          <img src="images/week01_plan.png" alt="Week at a Glance — Game Plan" loading="lazy">
+          <div class="carousel-slide-label">Weekly Game Plan</div>
+        </div>
+        <div class="carousel-slide" data-slide-index="7" data-title="Shop Once, Eat All Week">
+          <div class="carousel-slide-zoom-badge">🔍 Zoom Page</div>
+          <img src="images/shop_list.png" alt="Shop Once, Eat All Week" loading="lazy">
+          <div class="carousel-slide-label">Grocery List</div>
+        </div>
+        <div class="carousel-slide" data-slide-index="8" data-title="Air-Fryer Chicken Taquitos">
+          <div class="carousel-slide-zoom-badge">🔍 Zoom Page</div>
+          <img src="images/recipe_taquitos.png" alt="Air-Fryer Chicken Taquitos" loading="lazy">
+          <div class="carousel-slide-label">Recipe — Taquitos</div>
+        </div>
+        <div class="carousel-slide" data-slide-index="9" data-title="Blackened Mahi Tacos">
+          <div class="carousel-slide-zoom-badge">🔍 Zoom Page</div>
+          <img src="images/recipe_mahi.png" alt="Blackened Mahi Tacos — Weekend Upgrade" loading="lazy">
+          <div class="carousel-slide-label">Weekend Upgrade</div>
+        </div>
+        <div class="carousel-slide" data-slide-index="10" data-title="Closing & Summary">
+          <div class="carousel-slide-zoom-badge">🔍 Zoom Page</div>
+          <img src="images/closing.png" alt="Closing Page" loading="lazy">
+          <div class="carousel-slide-label">Closing Page</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="carousel-nav">
+      <button class="carousel-btn carousel-btn-prev" aria-label="Previous slide">←</button>
+      <div class="carousel-dots" id="carousel-dots"></div>
+      <button class="carousel-btn carousel-btn-next" aria-label="Next slide">→</button>
+    </div>
+  </section>
+
+  <!-- ========== WHAT'S INSIDE ========== -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <div class="text-center reveal">
+        <div class="section-label">What's Inside</div>
+        <h2>Built for Real Life</h2>
+        <p style="max-width:560px; margin: var(--space-md) auto 0;">Not another Instagram recipe book. This is a <strong>complete system</strong> — grocery lists, game plans, and recipes that actually fit a normal budget.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card reveal">
+          <div class="feature-icon">📋</div>
+          <div class="feature-stat">7</div>
+          <h4>Weekly Meal Systems</h4>
+          <p>Each week comes with a themed plan, aisle-mapped grocery list, and 15 recipes that cover all 21 meals.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">🥩</div>
+          <div class="feature-stat">120G+</div>
+          <h4>Protein Every Day</h4>
+          <p>Every day hits at least 120g of protein. Every recipe is macro-tracked with calories, protein, carbs, and fat.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">💰</div>
+          <div class="feature-stat">$2.60</div>
+          <h4>Average Per Meal</h4>
+          <p>Priced at real Aldi & Walmart shelf prices. Most weeks come in under $75 for one person.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">⏱️</div>
+          <div class="feature-stat">15 MIN</div>
+          <h4>Fifteen-Minute Nights</h4>
+          <p>Weeknight dinners that take 15 minutes or less. One-pan, one-pot, zero complexity.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">🛒</div>
+          <div class="feature-stat">1 LIST</div>
+          <h4>One Trip Per Week</h4>
+          <p>One grocery list. One shopping trip. Every item gets used down to the last scrap — no waste.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">🍳</div>
+          <div class="feature-stat">60+</div>
+          <h4>Real-Food Recipes</h4>
+          <p>Smash burgers, crunchwraps, chicken taquitos, mahi tacos — food you actually want to eat.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PRICING ========== -->
+  <section class="pricing-section" id="pricing">
+    <div class="container">
+      <div class="text-center reveal">
+        <div class="section-label">Get Your Copy</div>
+        <h2>Invest Once. Eat Smart Forever.</h2>
+        <p style="max-width:560px; margin: var(--space-md) auto 0;">One purchase. Instant PDF download. No subscriptions, no recurring fees — just the system.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Main Book -->
+        <div class="pricing-card featured reveal">
+          <div class="pricing-card-badge">⭐ Main Book</div>
+          <div class="pricing-card-image">
+            <img src="images/cover.png" alt="Big Protein, Small Bill">
+          </div>
+          <div class="pricing-card-body">
+            <div class="pricing-card-title">Big Protein, Small Bill</div>
+            <p class="pricing-card-desc">The complete 7-week supermarket meal system. 156 pages, 60+ recipes, grocery lists, game plans, and macro tracking.</p>
+            <div class="pricing-card-price">
+              <span class="current">$24.99</span>
+              <span class="original">$29.99</span>
+            </div>
+            <ul class="pricing-card-features">
+              <li>156 pages — First Edition</li>
+              <li>7 themed weekly meal plans</li>
+              <li>60+ macro-tracked recipes</li>
+              <li>Aisle-mapped grocery lists</li>
+              <li>Instant PDF download</li>
+            </ul>
+            <button class="btn-add-cart" data-add-main data-original-text="Add to Cart — $24.99">
+              Add to Cart — $24.99
+            </button>
+          </div>
+        </div>
+
+        <!-- Bonus Book -->
+        <div class="pricing-card reveal">
+          <div class="pricing-card-image">
+            <img src="images/sip_page_1.png" alt="Sip Smart, Spend Less">
+          </div>
+          <div class="pricing-card-body">
+            <div class="pricing-card-title">Sip Smart, Spend Less</div>
+            <p class="pricing-card-desc">4 budget-friendly protein drink recipes. Under $4 total, less than 5 minutes each. 14g real protein per serving.</p>
+            <div class="pricing-card-price">
+              <span class="current">$8.00</span>
+              <span class="pricing-badge-free">FREE with Main Book</span>
+            </div>
+            <ul class="pricing-card-features">
+              <li>4 protein drink recipes</li>
+              <li>Under $1.10 per glass</li>
+              <li>Less than 5 minutes to make</li>
+              <li>No fancy equipment needed</li>
+              <li>FREE when you buy Big Protein, Small Bill</li>
+            </ul>
+            <button class="btn-add-cart" data-bundle-action>
+              Get FREE with Main Book — $24.99
+            </button>
+            <button class="btn-add-cart-solo" data-add-solo-bonus>
+              Buy This Ebook Solo — $8.00
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="savings-banner reveal">
+        <h3>$37.99 Value for Just $24.99</h3>
+        <p>Get both books and save $13.00. Add the main book to your cart to unlock the free bonus.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TESTIMONIALS ========== -->
+  <section class="testimonials-section" id="testimonials">
+    <div class="container">
+      <div class="text-center reveal">
+        <div class="section-label">What People Say</div>
+        <h2>Real Results</h2>
+      </div>
+
+      <div class="testimonials-grid">
+        <!-- Review 1: Marcus T. -->
+        <div class="testimonial-card reveal">
+          <div class="testimonial-header">
+            <img src="images/avatars/marcus.jpg" alt="Marcus T." class="testimonial-avatar" loading="lazy">
+            <div class="testimonial-user-info">
+              <div class="testimonial-author">Marcus T.</div>
+              <div class="testimonial-meta">Week 1 User • <span class="verified-badge">✓ Verified Buyer</span></div>
+            </div>
+          </div>
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"I was spending $150+ a week on groceries and still not hitting my protein goals. First week with this book: $72, 145g protein daily. The grocery list alone is worth the price."</p>
+        </div>
+
+        <!-- Review 2: Sarah K. -->
+        <div class="testimonial-card reveal">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar testimonial-avatar-letter" title="Sarah K.">S</div>
+            <div class="testimonial-user-info">
+              <div class="testimonial-author">Sarah K.</div>
+              <div class="testimonial-meta">Completed 4 Weeks • <span class="verified-badge">✓ Verified Buyer</span></div>
+            </div>
+          </div>
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"The fifteen-minute dinners are a game changer. I used to order takeout 3-4 times a week because I was too tired to cook. Now I actually look forward to making dinner."</p>
+        </div>
+
+        <!-- Review 3: James R. -->
+        <div class="testimonial-card reveal">
+          <div class="testimonial-header">
+            <img src="images/avatars/james.jpg" alt="James R." class="testimonial-avatar" loading="lazy">
+            <div class="testimonial-user-info">
+              <div class="testimonial-author">James R.</div>
+              <div class="testimonial-meta">7-Week Finisher • <span class="verified-badge">✓ Verified Buyer</span></div>
+            </div>
+          </div>
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"No tahini, no pine nuts, no obscure ingredients. Everything on the list is stuff I can actually find at Walmart. This is the first meal plan that respects a normal person's budget."</p>
+        </div>
+
+        <!-- Review 4: Elena M. -->
+        <div class="testimonial-card reveal">
+          <div class="testimonial-header">
+            <img src="images/avatars/elena.jpg" alt="Elena M." class="testimonial-avatar" loading="lazy">
+            <div class="testimonial-user-info">
+              <div class="testimonial-author">Elena M.</div>
+              <div class="testimonial-meta">Aldi Shopper & Student • <span class="verified-badge">✓ Verified Buyer</span></div>
+            </div>
+          </div>
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"As a grad student on a strict $65/week budget, hitting 120g of protein felt impossible without expensive supplements. The Blackened Mahi Tacos and smash burgers are crazy good and cheap."</p>
+        </div>
+
+        <!-- Review 5: David L. -->
+        <div class="testimonial-card reveal">
+          <div class="testimonial-header">
+            <img src="images/avatars/david.jpg" alt="David L." class="testimonial-avatar" loading="lazy">
+            <div class="testimonial-user-info">
+              <div class="testimonial-author">David L.</div>
+              <div class="testimonial-meta">Sunday Meal Prepper • <span class="verified-badge">✓ Verified Buyer</span></div>
+            </div>
+          </div>
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"The single grocery list format saved my sanity. I shop once on Sunday in under 25 minutes, prep in one hour, and dinner is on the table in 15 minutes all week long. Total game changer."</p>
+        </div>
+
+        <!-- Review 6: Chloe W. -->
+        <div class="testimonial-card reveal">
+          <div class="testimonial-header">
+            <img src="images/avatars/chloe.jpg" alt="Chloe W." class="testimonial-avatar" loading="lazy">
+            <div class="testimonial-user-info">
+              <div class="testimonial-author">Chloe W.</div>
+              <div class="testimonial-meta">12h Shift Healthcare • <span class="verified-badge">✓ Verified Buyer</span></div>
+            </div>
+          </div>
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"The 'Sip Smart, Spend Less' drink bonus was the cherry on top. The 4-ingredient protein smoothies taste like a $9 smoothie shop drink but cost $1.10. Worth every single penny."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FAQ ========== -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <div class="text-center reveal">
+        <div class="section-label">Questions?</div>
+        <h2>Frequently Asked</h2>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item reveal">
+          <button class="faq-question">
+            What format is the book in?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              The book is a downloadable PDF file (156 pages). You'll receive instant access after purchase. It works on any device — phone, tablet, laptop, or desktop. You can read it in any PDF reader or even print it out.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item reveal">
+          <button class="faq-question">
+            How do I access it after purchase?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              After completing your purchase, you'll receive a download link via email immediately. You'll also see a download button on the confirmation page. The PDF is yours to keep forever — no subscriptions, no expiry.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item reveal">
+          <button class="faq-question">
+            Can I get a refund?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Due to the digital nature of the product, <strong>we are unable to offer refunds</strong> once the PDF has been delivered. Since a PDF file cannot be retracted once downloaded, all sales are final. We encourage you to review all the information on this page, including the book preview carousel, before purchasing. If you have questions before buying, please <a href="contact.html">contact us</a>. See our full <a href="refund.html">Refund Policy</a>.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item reveal">
+          <button class="faq-question">
+            Is this a subscription?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              No. This is a one-time purchase. You pay once, download the PDF, and it's yours forever. There are no recurring charges, no monthly fees, and no hidden costs. Just one cookbook, one price.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item reveal">
+          <button class="faq-question">
+            What's the "Sip Smart, Spend Less" bonus?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              It's a separate 8-page ebook with 4 budget-friendly protein drink recipes — normally sold for $8.00. When you add "Big Protein, Small Bill" to your cart, you'll get the option to add this bonus ebook completely free. It includes protein shakes and smoothies that cost under $1.10 per glass and take less than 5 minutes to make.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item reveal">
+          <button class="faq-question">
+            Do I need special kitchen equipment?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Nope. The book uses just 8 basic tools: a large non-stick skillet, a cast-iron skillet, a sheet pan, a slow cooker or instant pot, a blender, basic measuring tools, and storage containers. Most people already have everything they need. No air fryer required (though some recipes have air fryer options).
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FINAL CTA ========== -->
+  <section style="padding: var(--space-4xl) 0; background: var(--color-charcoal); text-align: center;">
+    <div class="container reveal">
+      <h2 style="color: var(--color-cream); margin-bottom: var(--space-md);">Ready to Eat Big & Spend Less?</h2>
+      <p style="color: rgba(249,246,240,0.6); max-width: 480px; margin: 0 auto var(--space-2xl);">
+        One purchase. Seven weeks of meals. 120g+ protein daily. Under $75 a week.
+      </p>
+      <button class="hero-cta" data-add-main data-original-text="Get the Book — $24.99" style="animation:none;">
+        Get the Book — $24.99
+      </button>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo-text">BIG<span style="color:var(--color-primary);">PROTEIN</span></div>
+          <p>High-protein budget cooking made simple. Real food, real prices, real results.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="#pricing">Big Protein, Small Bill</a></li>
+            <li><a href="#pricing">Sip Smart, Spend Less</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Learn More</h4>
+          <ul>
+            <li><a href="#features">What's Inside</a></li>
+            <li><a href="#preview">Book Preview</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="refund.html">Refund Policy</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 bigprotein.utility.forum. All rights reserved.</p>
+        <div class="footer-payments">
+          <span>Visa</span>
+          <span>Mastercard</span>
+          <span>PayPal</span>
+          <span>Stripe</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== CART SIDEBAR ========== -->
+  <div class="cart-overlay" id="cart-overlay"></div>
+  <aside class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button class="cart-close" aria-label="Close cart">✕</button>
+    </div>
+    <div class="cart-body" id="cart-body">
+      <div class="cart-empty">
+        <div class="cart-empty-icon">🛒</div>
+        <p>Your cart is empty</p>
+      </div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span class="cart-total-label">Total</span>
+        <span class="cart-total-value">$0.00</span>
+      </div>
+      <div class="cart-total-savings" style="display:none;"></div>
+      <button class="btn-checkout" disabled>Proceed to Checkout</button>
+    </div>
+  </aside>
+
+  <!-- ========== FULLSCREEN BOOK PREVIEW LIGHTBOX ========== -->
+  <div class="preview-lightbox" id="preview-lightbox" aria-hidden="true" role="dialog" aria-label="Book Preview Lightbox">
+    <!-- Topbar Controls -->
+    <div class="lightbox-topbar">
+      <div class="lightbox-info">
+        <span class="lightbox-page-title" id="lightbox-page-title">Table of Contents</span>
+        <span class="lightbox-page-counter" id="lightbox-page-counter">Page 1 of 11</span>
+      </div>
+      <div class="lightbox-actions">
+        <!-- Four Boxes Grid View Toggle Button -->
+        <button class="lightbox-btn" id="lightbox-grid-toggle" title="Four Boxes / Grid View (Toggle Overview)" aria-label="Toggle Four Boxes Grid View">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="3" y="3" width="8" height="8" rx="1.5"/>
+            <rect x="13" y="3" width="8" height="8" rx="1.5"/>
+            <rect x="3" y="13" width="8" height="8" rx="1.5"/>
+            <rect x="13" y="13" width="8" height="8" rx="1.5"/>
+          </svg>
+          <span class="lightbox-btn-text">Four Boxes Grid</span>
+        </button>
+
+        <!-- Zoom Toggle Button -->
+        <button class="lightbox-btn" id="lightbox-zoom-toggle" title="Zoom in details (or click image)" aria-label="Toggle Zoom">
+          🔍 <span class="lightbox-btn-text" id="lightbox-zoom-text">Zoom In</span>
+        </button>
+
+        <!-- Close Button -->
+        <button class="lightbox-btn lightbox-btn-close" id="lightbox-close" title="Close Preview (Esc)" aria-label="Close Preview">
+          ✕
+        </button>
+      </div>
+    </div>
+
+    <!-- Single Page Zoom View -->
+    <div class="lightbox-main-view" id="lightbox-main-view">
+      <button class="lightbox-nav-btn lightbox-prev" id="lightbox-prev" aria-label="Previous Page">‹</button>
+      <div class="lightbox-image-wrapper" id="lightbox-image-wrapper" title="Click to zoom in / out">
+        <img src="images/contents.png" alt="Book Page Preview" id="lightbox-active-img" class="lightbox-active-img">
+      </div>
+      <button class="lightbox-nav-btn lightbox-next" id="lightbox-next" aria-label="Next Page">›</button>
+    </div>
+
+    <!-- Four Boxes Grid View -->
+    <div class="lightbox-grid-view" id="lightbox-grid-view" style="display: none;">
+      <div class="lightbox-grid-header">
+        <h4>All 11 Book Preview Pages — Four Boxes Grid View</h4>
+        <p>Click any page to zoom in full-screen. Press the Four Boxes button or Esc anytime to return.</p>
+      </div>
+      <div class="grid-view-thumbnails" id="grid-view-thumbnails">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
