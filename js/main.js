@@ -1,5 +1,5 @@
 /* ===================================================
-   BigProtein.Utility.Forum — Main JavaScript
+   Big Protein — Main JavaScript & Conversion Funnel
    =================================================== */
 
 // --- Products ---
@@ -137,6 +137,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initLightbox();
   initFAQ();
   initCart();
+  initBonusUnlockModal();
+  initStickyFunnelBar();
+  initSocialProof();
   initCheckout();
   initScrollReveal();
   initAddToCartButtons();
@@ -527,6 +530,22 @@ function updateCartUI() {
     `;
   } else {
     let html = '';
+
+    // If both main book and free bonus are in cart, show celebration banner!
+    if (CartState.hasItem('main-book') && CartState.hasItem('bonus-book')) {
+      html += `
+        <div class="cart-unlocked-banner">
+          <span>🎁</span>
+          <div>
+            <strong>FREE BONUS GIFT APPLIED!</strong><br>
+            <span style="font-weight:400; font-size:0.8rem; color:#145A32;">
+              "Sip Smart, Spend Less" ($8.00 Value) is 100% FREE with your order!
+            </span>
+          </div>
+        </div>
+      `;
+    }
+
     CartState.items.forEach(item => {
       html += `
         <div class="cart-item">
@@ -536,7 +555,7 @@ function updateCartUI() {
           <div class="cart-item-info">
             <div class="cart-item-title">${item.title}</div>
             <div class="cart-item-price ${item.price === 0 ? 'cart-item-free' : ''}">
-              ${item.price === 0 ? 'FREE' : '$' + item.price.toFixed(2)}
+              ${item.price === 0 ? 'FREE ($0.00)' : '$' + item.price.toFixed(2)}
               ${item.originalPrice > item.price ? `<span class="original">$${item.originalPrice.toFixed(2)}</span>` : ''}
             </div>
             <button class="cart-item-remove" onclick="removeFromCart('${item.id}')">Remove</button>
@@ -545,21 +564,21 @@ function updateCartUI() {
       `;
     });
 
-    // Special Offer: Main book in cart, but bonus book NOT yet claimed
+    // Special Offer: Main book in cart, but bonus book NOT yet claimed (if user removed it)
     if (CartState.hasItem('main-book') && !CartState.hasItem('bonus-book')) {
       html += `
         <div class="cart-special-offer">
           <div class="cart-special-offer-header">
             <span>🎁</span>
-            <h4>Special Offer!</h4>
+            <h4>Free Bonus Available!</h4>
           </div>
-          <p>Add "<strong>Sip Smart, Spend Less</strong>" to your order — completely FREE!</p>
+          <p>You qualify to add "<strong>Sip Smart, Spend Less</strong>" — completely FREE!</p>
           <div class="offer-value">
             <span class="was">$8.00</span>
             <span class="now">FREE</span>
           </div>
           <button class="btn-claim-offer" onclick="claimBonusOffer()">
-            Yes, Add It Free!
+            Yes, Add My Free Bonus!
           </button>
         </div>
       `;
@@ -569,10 +588,10 @@ function updateCartUI() {
     if (!CartState.hasItem('main-book') && CartState.hasItem('bonus-book')) {
       html += `
         <div class="cart-upgrade-box">
-          <h4>💡 Upgrade & Save $8.00!</h4>
-          <p>Add "<strong>Big Protein, Small Bill</strong>" ($24.99) and get your "Sip Smart, Spend Less" book <strong>100% FREE</strong>!</p>
+          <h4>💡 Upgrade & Get This Free!</h4>
+          <p>Add "<strong>Big Protein, Small Bill</strong>" ($24.99) and get your "Sip Smart, Spend Less" drink book <strong>100% FREE</strong>!</p>
           <button class="btn-upgrade-cart" onclick="upgradeToBundle()">
-            Add Main Book & Get Bonus FREE
+            Get Both Books for Just $24.99
           </button>
         </div>
       `;
@@ -590,7 +609,7 @@ function updateCartUI() {
   if (savingsEl) {
     const savings = CartState.getSavings();
     if (savings > 0) {
-      savingsEl.textContent = `You save $${savings.toFixed(2)}`;
+      savingsEl.textContent = `⚡ You save $${savings.toFixed(2)} today!`;
       savingsEl.style.display = 'block';
     } else {
       savingsEl.style.display = 'none';
@@ -601,42 +620,61 @@ function updateCartUI() {
   updateAddToCartButtons();
 }
 
-// --- Add To Cart Buttons ---
+// --- Add To Cart Buttons & High-Converting Funnel Redirect ---
 function initAddToCartButtons() {
-  // Main book buttons
+  // Main book buttons (Hero, Pricing, Footer)
   document.querySelectorAll('[data-add-main]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      addToCart('main');
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      claimMainWithFreeBonus();
     });
   });
 
-  // Bundle button (add main book + claim bonus free)
+  // Bundle buttons
   document.querySelectorAll('[data-bundle-action]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      upgradeToBundle();
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      claimMainWithFreeBonus();
+    });
+  });
+
+  // Quick bundle from announcement bar or sticky bar
+  document.querySelectorAll('[data-quick-bundle]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      claimMainWithFreeBonus();
     });
   });
 
   // Solo bonus button (buy for $8.00)
   document.querySelectorAll('[data-add-solo-bonus]').forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
       addSoloBonus();
     });
   });
 
   // Legacy bonus button
   document.querySelectorAll('[data-add-bonus]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (CartState.hasItem('main-book')) {
-        claimBonusOffer();
-      } else {
-        upgradeToBundle();
-      }
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      claimMainWithFreeBonus();
     });
   });
 }
 
+// High-Converting Funnel Action: Add Main Book + Automatically Grant Free Bonus + Celebrate!
+function claimMainWithFreeBonus() {
+  CartState.addItem({ ...PRODUCTS.main });
+  CartState.addItem({ ...PRODUCTS.bonus }, true);
+  openBonusUnlockModal();
+}
+
 function addToCart(productKey) {
+  if (productKey === 'main') {
+    claimMainWithFreeBonus();
+    return;
+  }
   const product = PRODUCTS[productKey];
   if (!product) return;
   CartState.addItem({ ...product });
@@ -650,12 +688,11 @@ function addSoloBonus() {
 
 function claimBonusOffer() {
   CartState.addItem({ ...PRODUCTS.bonus }, true);
+  if (window.openCart) window.openCart();
 }
 
 function upgradeToBundle() {
-  CartState.addItem({ ...PRODUCTS.main });
-  CartState.addItem({ ...PRODUCTS.bonus }, true);
-  if (window.openCart) window.openCart();
+  claimMainWithFreeBonus();
 }
 
 function removeFromCart(id) {
@@ -693,6 +730,183 @@ function updateAddToCartButtons() {
       btn.textContent = 'Buy This Ebook Solo — $8.00';
     }
   });
+}
+
+// --- Celebratory Free Bonus Unlock Modal ---
+function initBonusUnlockModal() {
+  let overlay = document.getElementById('bonus-unlock-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'bonus-unlock-overlay';
+    overlay.className = 'bonus-unlock-overlay';
+    overlay.innerHTML = `
+      <div class="bonus-unlock-modal" role="dialog" aria-modal="true" aria-label="Bonus Gift Unlocked">
+        <div class="bonus-unlock-confetti-header"></div>
+        <button class="bonus-close-btn" onclick="closeBonusUnlockModal()" aria-label="Close">✕</button>
+        <div class="bonus-unlock-icon">🎁✨</div>
+        <h3 class="bonus-unlock-title">FREE BONUS <span>UNLOCKED!</span></h3>
+        <p class="bonus-unlock-subtitle">
+          Because you ordered today, you've qualified for our promotional gift: <strong>"Sip Smart, Spend Less" ($8.00 value)</strong> has been added to your order for <strong>$0.00 FREE</strong>!
+        </p>
+
+        <div class="bonus-savings-meter">
+          <span>⚡</span>
+          <span>100% UNLOCKED — You are saving $13.00 today!</span>
+        </div>
+
+        <div class="bonus-items-preview">
+          <div class="bonus-preview-row main-row">
+            <span>📗 Big Protein, Small Bill (156 Pages)</span>
+            <span>$24.99</span>
+          </div>
+          <div class="bonus-preview-row gift-row">
+            <span>🥤 Sip Smart, Spend Less (4 Drink Recipes) <span class="badge-gift">FREE GIFT</span></span>
+            <span>$0.00</span>
+          </div>
+          <div class="bonus-total-summary">
+            <span style="font-size:0.85rem; font-weight:700; color:var(--color-charcoal);">Total Due Today:</span>
+            <div>
+              <span class="val-tag">$37.99</span>
+              <span class="now-tag">$24.99</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-bonus-checkout" onclick="proceedFromBonusToCheckout()">
+          🚀 Proceed to Instant Download Checkout ($24.99) →
+        </button>
+        <a class="bonus-secondary-link" onclick="viewCartFromBonus()">
+          Or Review Cart Items
+        </a>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeBonusUnlockModal();
+    });
+  }
+}
+
+function openBonusUnlockModal() {
+  initBonusUnlockModal();
+  const overlay = document.getElementById('bonus-unlock-overlay');
+  if (overlay) {
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeBonusUnlockModal() {
+  const overlay = document.getElementById('bonus-unlock-overlay');
+  if (overlay) {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+function proceedFromBonusToCheckout() {
+  closeBonusUnlockModal();
+  renderCheckoutForm();
+  openCheckout();
+}
+
+function viewCartFromBonus() {
+  closeBonusUnlockModal();
+  if (window.openCart) window.openCart();
+}
+
+// --- Sticky Floating Conversion Bar ---
+function initStickyFunnelBar() {
+  let stickyBar = document.getElementById('sticky-funnel-bar');
+  if (!stickyBar) {
+    stickyBar = document.createElement('div');
+    stickyBar.id = 'sticky-funnel-bar';
+    stickyBar.className = 'sticky-funnel-bar';
+    stickyBar.innerHTML = `
+      <div class="sticky-funnel-inner">
+        <div class="sticky-info">
+          <img src="images/cover.png" alt="Big Protein Cookbook" class="sticky-thumb">
+          <div class="sticky-titles">
+            <div class="sticky-title">Big Protein, Small Bill</div>
+            <div class="sticky-sub">🎁 Includes FREE $8.00 Drink Ebook Today</div>
+          </div>
+        </div>
+        <div class="sticky-action">
+          <div class="sticky-price-group">
+            <div class="sticky-price-curr">$24.99</div>
+            <div class="sticky-price-orig">$37.99</div>
+          </div>
+          <button class="btn-sticky-claim" onclick="claimMainWithFreeBonus()">
+            Claim Your Copy ➔
+          </button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(stickyBar);
+  }
+
+  const onScroll = () => {
+    if (window.scrollY > 480) {
+      stickyBar.classList.add('visible');
+      const toast = document.getElementById('social-proof-toast');
+      if (toast) toast.classList.add('with-sticky');
+    } else {
+      stickyBar.classList.remove('visible');
+      const toast = document.getElementById('social-proof-toast');
+      if (toast) toast.classList.remove('with-sticky');
+    }
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+}
+
+// --- Live Social Proof Toast (Recent Buyer Notifications) ---
+function initSocialProof() {
+  const recentBuyers = [
+    { name: 'Liam M.', loc: 'Denver, CO', time: '3 minutes ago', action: 'purchased Big Protein + Free Bonus' },
+    { name: 'Marcus T.', loc: 'Chicago, IL', time: '7 minutes ago', action: 'downloaded the Complete Meal System' },
+    { name: 'Elena R.', loc: 'Austin, TX', time: '14 minutes ago', action: 'claimed Big Protein + Free Drink Ebook' },
+    { name: 'David K.', loc: 'Orlando, FL', time: '21 minutes ago', action: 'purchased Big Protein, Small Bill' },
+    { name: 'Sarah W.', loc: 'Seattle, WA', time: '29 minutes ago', action: 'unlocked the 7-Week Supermarket System' },
+    { name: 'Chloe B.', loc: 'Charlotte, NC', time: '36 minutes ago', action: 'purchased Big Protein + Free Bonus' }
+  ];
+
+  let toast = document.getElementById('social-proof-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'social-proof-toast';
+    toast.className = 'social-proof-toast';
+    document.body.appendChild(toast);
+  }
+
+  let buyerIndex = 0;
+  function showNextProof() {
+    const buyer = recentBuyers[buyerIndex];
+    buyerIndex = (buyerIndex + 1) % recentBuyers.length;
+
+    toast.innerHTML = `
+      <div class="social-proof-icon">⚡</div>
+      <div class="social-proof-content">
+        <strong>${buyer.name} from ${buyer.loc}</strong>
+        <span>${buyer.action}</span>
+        <div class="social-proof-time">${buyer.time} • <span style="color:#2ECC71;">✓ Verified Buyer</span></div>
+      </div>
+      <button class="social-proof-close" onclick="this.parentElement.classList.remove('show')" aria-label="Close notification">✕</button>
+    `;
+
+    toast.classList.add('show');
+
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 6000);
+  }
+
+  // Start after 5 seconds, repeat every 22 seconds
+  setTimeout(() => {
+    showNextProof();
+    setInterval(showNextProof, 22000);
+  }, 5000);
 }
 
 // --- Checkout Modal & Instant Download System ---
