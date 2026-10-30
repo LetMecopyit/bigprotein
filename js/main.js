@@ -491,6 +491,9 @@ function initCart() {
     overlay.classList.add('open');
     sidebar.classList.add('open');
     document.body.style.overflow = 'hidden';
+    if (typeof window.triggerCartSocialProof === 'function') {
+      window.triggerCartSocialProof();
+    }
   }
 
   function closeCart() {
@@ -795,6 +798,9 @@ function openBonusUnlockModal() {
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
+  if (typeof window.triggerCartSocialProof === 'function') {
+    window.triggerCartSocialProof();
+  }
 }
 
 function closeBonusUnlockModal() {
@@ -861,16 +867,171 @@ function initStickyFunnelBar() {
   window.addEventListener('scroll', onScroll, { passive: true });
 }
 
-// --- Live Social Proof Toast (Recent Buyer Notifications) ---
-function initSocialProof() {
-  const recentBuyers = [
-    { name: 'Liam M.', loc: 'Denver, CO', time: '3 minutes ago', action: 'purchased Big Protein + Free Bonus' },
-    { name: 'Marcus T.', loc: 'Chicago, IL', time: '7 minutes ago', action: 'downloaded the Complete Meal System' },
-    { name: 'Elena R.', loc: 'Austin, TX', time: '14 minutes ago', action: 'claimed Big Protein + Free Drink Ebook' },
-    { name: 'David K.', loc: 'Orlando, FL', time: '21 minutes ago', action: 'purchased Big Protein, Small Bill' },
-    { name: 'Sarah W.', loc: 'Seattle, WA', time: '29 minutes ago', action: 'unlocked the 7-Week Supermarket System' },
-    { name: 'Chloe B.', loc: 'Charlotte, NC', time: '36 minutes ago', action: 'purchased Big Protein + Free Bonus' }
-  ];
+// --- Live Social Proof System (120+ USA Customers, 48-Hour Cooldown, Precision Timers) ---
+const USA_BUYERS_POOL = [
+  { id: 1, name: 'Liam M.', loc: 'Denver, CO', action: 'purchased Big Protein + Free Bonus' },
+  { id: 2, name: 'Marcus T.', loc: 'Chicago, IL', action: 'downloaded the Complete Meal System' },
+  { id: 3, name: 'Elena R.', loc: 'Austin, TX', action: 'claimed Big Protein + Free Drink Ebook' },
+  { id: 4, name: 'David K.', loc: 'Orlando, FL', action: 'purchased Big Protein, Small Bill' },
+  { id: 5, name: 'Sarah W.', loc: 'Seattle, WA', action: 'unlocked the 7-Week Supermarket System' },
+  { id: 6, name: 'Chloe B.', loc: 'Charlotte, NC', action: 'purchased Big Protein + Free Bonus' },
+  { id: 7, name: 'Brandon S.', loc: 'Phoenix, AZ', action: 'claimed the $24.99 Launch Bundle' },
+  { id: 8, name: 'Rachel H.', loc: 'Columbus, OH', action: 'downloaded the 156-Page Cookbook' },
+  { id: 9, name: 'Tyler J.', loc: 'Dallas, TX', action: 'purchased Big Protein + Free Bonus' },
+  { id: 10, name: 'Jessica P.', loc: 'San Diego, CA', action: 'unlocked the 7-Week Grocery Blueprint' },
+  { id: 11, name: 'Austin C.', loc: 'Nashville, TN', action: 'claimed Big Protein + Free Drink Ebook' },
+  { id: 12, name: 'Megan F.', loc: 'Atlanta, GA', action: 'purchased Big Protein, Small Bill' },
+  { id: 13, name: 'Anthony L.', loc: 'Indianapolis, IN', action: 'downloaded the Complete Meal System' },
+  { id: 14, name: 'Samantha D.', loc: 'Kansas City, MO', action: 'purchased Big Protein + Free Bonus' },
+  { id: 15, name: 'Kevin B.', loc: 'Minneapolis, MN', action: 'claimed the $24.99 Launch Bundle' },
+  { id: 16, name: 'Emily N.', loc: 'Tampa, FL', action: 'unlocked the 7-Week Supermarket System' },
+  { id: 17, name: 'Justin G.', loc: 'Salt Lake City, UT', action: 'purchased Big Protein + Free Bonus' },
+  { id: 18, name: 'Hannah M.', loc: 'Raleigh, NC', action: 'downloaded the 156-Page Cookbook' },
+  { id: 19, name: 'Ryan K.', loc: 'Portland, OR', action: 'claimed Big Protein + Free Drink Ebook' },
+  { id: 20, name: 'Olivia S.', loc: 'San Antonio, TX', action: 'purchased Big Protein, Small Bill' },
+  { id: 21, name: 'Travis R.', loc: 'Las Vegas, NV', action: 'unlocked the 7-Week Grocery Blueprint' },
+  { id: 22, name: 'Lauren C.', loc: 'Pittsburgh, PA', action: 'purchased Big Protein + Free Bonus' },
+  { id: 23, name: 'Nathan D.', loc: 'Boise, ID', action: 'downloaded the Complete Meal System' },
+  { id: 24, name: 'Brittany W.', loc: 'Richmond, VA', action: 'claimed the $24.99 Launch Bundle' },
+  { id: 25, name: 'Jordan H.', loc: 'Omaha, NE', action: 'purchased Big Protein, Small Bill' },
+  { id: 26, name: 'Nicole T.', loc: 'Louisville, KY', action: 'unlocked the 7-Week Supermarket System' },
+  { id: 27, name: 'Cody M.', loc: 'Milwaukee, WI', action: 'purchased Big Protein + Free Bonus' },
+  { id: 28, name: 'Taylor B.', loc: 'Albuquerque, NM', action: 'downloaded the 156-Page Cookbook' },
+  { id: 29, name: 'Kyle E.', loc: 'Jacksonville, FL', action: 'claimed Big Protein + Free Drink Ebook' },
+  { id: 30, name: 'Stephanie L.', loc: 'Cincinnati, OH', action: 'purchased Big Protein, Small Bill' },
+  { id: 31, name: 'Andrew P.', loc: 'Tucson, AZ', action: 'unlocked the 7-Week Grocery Blueprint' },
+  { id: 32, name: 'Amber G.', loc: 'Oklahoma City, OK', action: 'purchased Big Protein + Free Bonus' },
+  { id: 33, name: 'Dylan S.', loc: 'Des Moines, IA', action: 'downloaded the Complete Meal System' },
+  { id: 34, name: 'Danielle V.', loc: 'Charleston, SC', action: 'claimed the $24.99 Launch Bundle' },
+  { id: 35, name: 'Eric T.', loc: 'Sacramento, CA', action: 'purchased Big Protein, Small Bill' },
+  { id: 36, name: 'Kayla R.', loc: 'Madison, WI', action: 'unlocked the 7-Week Supermarket System' },
+  { id: 37, name: 'Sean M.', loc: 'Tulsa, OK', action: 'purchased Big Protein + Free Bonus' },
+  { id: 38, name: 'Vanessa C.', loc: 'Spokane, WA', action: 'downloaded the 156-Page Cookbook' },
+  { id: 39, name: 'Zachary W.', loc: 'Providence, RI', action: 'claimed Big Protein + Free Drink Ebook' },
+  { id: 40, name: 'Alyssa K.', loc: 'Grand Rapids, MI', action: 'purchased Big Protein, Small Bill' },
+  { id: 41, name: 'Adam B.', loc: 'Knoxville, TN', action: 'unlocked the 7-Week Grocery Blueprint' },
+  { id: 42, name: 'Brooke H.', loc: 'Reno, NV', action: 'purchased Big Protein + Free Bonus' },
+  { id: 43, name: 'Derek S.', loc: 'Cleveland, OH', action: 'downloaded the Complete Meal System' },
+  { id: 44, name: 'Paige N.', loc: 'Fort Worth, TX', action: 'claimed the $24.99 Launch Bundle' },
+  { id: 45, name: 'Joshua L.', loc: 'Detroit, MI', action: 'purchased Big Protein, Small Bill' },
+  { id: 46, name: 'Courtney D.', loc: 'Memphis, TN', action: 'unlocked the 7-Week Supermarket System' },
+  { id: 47, name: 'Luke M.', loc: 'Wichita, KS', action: 'purchased Big Protein + Free Bonus' },
+  { id: 48, name: 'Morgan F.', loc: 'Birmingham, AL', action: 'downloaded the 156-Page Cookbook' },
+  { id: 49, name: 'Matthew T.', loc: 'Little Rock, AR', action: 'claimed Big Protein + Free Drink Ebook' },
+  { id: 50, name: 'Heather C.', loc: 'Savannah, GA', action: 'purchased Big Protein, Small Bill' },
+  { id: 51, name: 'Colton B.', loc: 'Colorado Springs, CO', action: 'unlocked the 7-Week Grocery Blueprint' },
+  { id: 52, name: 'Brianna M.', loc: 'St. Louis, MO', action: 'purchased Big Protein + Free Bonus' },
+  { id: 53, name: 'Trevor K.', loc: 'Greensboro, NC', action: 'downloaded the Complete Meal System' },
+  { id: 54, name: 'Kaitlyn S.', loc: 'Baton Rouge, LA', action: 'claimed the $24.99 Launch Bundle' },
+  { id: 55, name: 'Blake R.', loc: 'Fremont, CA', action: 'purchased Big Protein, Small Bill' },
+  { id: 56, name: 'Haley G.', loc: 'Fort Wayne, IN', action: 'unlocked the 7-Week Supermarket System' },
+  { id: 57, name: 'Garrett W.', loc: 'Plano, TX', action: 'purchased Big Protein + Free Bonus' },
+  { id: 58, name: 'Sierra D.', loc: 'Henderson, NV', action: 'downloaded the 156-Page Cookbook' },
+  { id: 59, name: 'Jesse P.', loc: 'Chandler, AZ', action: 'claimed Big Protein + Free Drink Ebook' },
+  { id: 60, name: 'Alexis H.', loc: 'Norfolk, VA', action: 'purchased Big Protein, Small Bill' },
+  { id: 61, name: 'Dustin L.', loc: 'Lincoln, NE', action: 'unlocked the 7-Week Grocery Blueprint' },
+  { id: 62, name: 'Kelsey T.', loc: 'Toledo, OH', action: 'purchased Big Protein + Free Bonus' },
+  { id: 63, name: 'Logan C.', loc: 'Lexington, KY', action: 'downloaded the Complete Meal System' },
+  { id: 64, name: 'Shelby R.', loc: 'Saint Paul, MN', action: 'claimed the $24.99 Launch Bundle' },
+  { id: 65, name: 'Brady N.', loc: 'Corpus Christi, TX', action: 'purchased Big Protein, Small Bill' },
+  { id: 66, name: 'Madeline B.', loc: 'Bakersfield, CA', action: 'unlocked the 7-Week Supermarket System' },
+  { id: 67, name: 'Brett M.', loc: 'Aurora, CO', action: 'purchased Big Protein + Free Bonus' },
+  { id: 68, name: 'Cassidy W.', loc: 'Anaheim, CA', action: 'downloaded the 156-Page Cookbook' },
+  { id: 69, name: 'Cameron J.', loc: 'Honolulu, HI', action: 'claimed Big Protein + Free Drink Ebook' },
+  { id: 70, name: 'Gabrielle K.', loc: 'Santa Ana, CA', action: 'purchased Big Protein, Small Bill' },
+  { id: 71, name: 'Grant E.', loc: 'Riverside, CA', action: 'unlocked the 7-Week Grocery Blueprint' },
+  { id: 72, name: 'Mallory P.', loc: 'Anchorage, AK', action: 'purchased Big Protein + Free Bonus' },
+  { id: 73, name: 'Spencer T.', loc: 'Stockton, CA', action: 'downloaded the Complete Meal System' },
+  { id: 74, name: 'Carly D.', loc: 'Chesapeake, VA', action: 'claimed the $24.99 Launch Bundle' },
+  { id: 75, name: 'Mitchell S.', loc: 'Laredo, TX', action: 'purchased Big Protein, Small Bill' },
+  { id: 76, name: 'Kendall B.', loc: 'Irving, TX', action: 'unlocked the 7-Week Supermarket System' },
+  { id: 77, name: 'Hayden L.', loc: 'Garland, TX', action: 'purchased Big Protein + Free Bonus' },
+  { id: 78, name: 'Jenna M.', loc: 'Scottsdale, AZ', action: 'downloaded the 156-Page Cookbook' },
+  { id: 79, name: 'Bryce W.', loc: 'Gilbert, AZ', action: 'claimed Big Protein + Free Drink Ebook' },
+  { id: 80, name: 'Cheyenne F.', loc: 'North Las Vegas, NV', action: 'purchased Big Protein, Small Bill' },
+  { id: 81, name: 'Tanner R.', loc: 'Fremont, CA', action: 'unlocked the 7-Week Grocery Blueprint' },
+  { id: 82, name: 'Bailey H.', loc: 'Glendale, AZ', action: 'purchased Big Protein + Free Bonus' },
+  { id: 83, name: 'Chase M.', loc: 'Winston-Salem, NC', action: 'downloaded the Complete Meal System' },
+  { id: 84, name: 'Lindsey K.', loc: 'Lubbock, TX', action: 'claimed the $24.99 Launch Bundle' },
+  { id: 85, name: 'Dakota P.', loc: 'Garland, TX', action: 'purchased Big Protein, Small Bill' },
+  { id: 86, name: 'Sydney C.', loc: 'Hialeah, FL', action: 'unlocked the 7-Week Supermarket System' },
+  { id: 87, name: 'Parker S.', loc: 'Chesapeake, VA', action: 'purchased Big Protein + Free Bonus' },
+  { id: 88, name: 'Devin T.', loc: 'Boise, ID', action: 'downloaded the 156-Page Cookbook' },
+  { id: 89, name: 'Makayla L.', loc: 'Baton Rouge, LA', action: 'claimed Big Protein + Free Drink Ebook' },
+  { id: 90, name: 'Mason R.', loc: 'Richmond, VA', action: 'purchased Big Protein, Small Bill' },
+  { id: 91, name: 'Payton W.', loc: 'Spokane, WA', action: 'unlocked the 7-Week Grocery Blueprint' },
+  { id: 92, name: 'Colby D.', loc: 'Des Moines, IA', action: 'purchased Big Protein + Free Bonus' },
+  { id: 93, name: 'Tori B.', loc: 'Tacoma, WA', action: 'downloaded the Complete Meal System' },
+  { id: 94, name: 'Preston M.', loc: 'San Bernardino, CA', action: 'claimed the $24.99 Launch Bundle' },
+  { id: 95, name: 'Reagan F.', loc: 'Modesto, CA', action: 'purchased Big Protein, Small Bill' },
+  { id: 96, name: 'Gavin K.', loc: 'Fontana, CA', action: 'unlocked the 7-Week Supermarket System' },
+  { id: 97, name: 'Mikayla J.', loc: 'Santa Clarita, CA', action: 'purchased Big Protein + Free Bonus' },
+  { id: 98, name: 'Connor S.', loc: 'Birmingham, AL', action: 'downloaded the 156-Page Cookbook' },
+  { id: 99, name: 'Faith N.', loc: 'Fayetteville, NC', action: 'claimed Big Protein + Free Drink Ebook' },
+  { id: 100, name: 'Levi T.', loc: 'Rochester, NY', action: 'purchased Big Protein, Small Bill' },
+  { id: 101, name: 'Kylie R.', loc: 'Oxnard, CA', action: 'unlocked the 7-Week Grocery Blueprint' },
+  { id: 102, name: 'Carson W.', loc: 'Grand Prairie, TX', action: 'purchased Big Protein + Free Bonus' },
+  { id: 103, name: 'Autumn L.', loc: 'Salt Lake City, UT', action: 'downloaded the Complete Meal System' },
+  { id: 104, name: 'Dawson P.', loc: 'Huntsville, AL', action: 'claimed the $24.99 Launch Bundle' },
+  { id: 105, name: 'Sierra M.', loc: 'Sioux Falls, SD', action: 'purchased Big Protein, Small Bill' },
+  { id: 106, name: 'Jared B.', loc: 'Peoria, AZ', action: 'unlocked the 7-Week Supermarket System' },
+  { id: 107, name: 'Katelyn H.', loc: 'Springfield, MO', action: 'purchased Big Protein + Free Bonus' },
+  { id: 108, name: 'Christian D.', loc: 'Salem, OR', action: 'downloaded the 156-Page Cookbook' },
+  { id: 109, name: 'Savannah T.', loc: 'Corona, CA', action: 'claimed Big Protein + Free Drink Ebook' },
+  { id: 110, name: 'Brayden K.', loc: 'Eugene, OR', action: 'purchased Big Protein, Small Bill' },
+  { id: 111, name: 'Alana C.', loc: 'McKinney, TX', action: 'unlocked the 7-Week Grocery Blueprint' },
+  { id: 112, name: 'Keagan W.', loc: 'Fort Collins, CO', action: 'purchased Big Protein + Free Bonus' },
+  { id: 113, name: 'Tessa R.', loc: 'Cary, NC', action: 'downloaded the Complete Meal System' },
+  { id: 114, name: 'Nolan S.', loc: 'Alexandria, VA', action: 'claimed the $24.99 Launch Bundle' },
+  { id: 115, name: 'Mallory E.', loc: 'Lakewood, CO', action: 'purchased Big Protein, Small Bill' },
+  { id: 116, name: 'Easton M.', loc: 'Sunnyvale, CA', action: 'unlocked the 7-Week Supermarket System' },
+  { id: 117, name: 'Brogan D.', loc: 'Hollywood, FL', action: 'purchased Big Protein + Free Bonus' },
+  { id: 118, name: 'Mckenzie P.', loc: 'Clarksville, TN', action: 'downloaded the 156-Page Cookbook' },
+  { id: 119, name: 'Brody T.', loc: 'Naperville, IL', action: 'claimed Big Protein + Free Drink Ebook' },
+  { id: 120, name: 'Camille H.', loc: 'Overland Park, KS', action: 'purchased Big Protein, Small Bill' }
+];
+
+const COOLDOWN_48_HOURS_MS = 48 * 60 * 60 * 1000;
+let lastSocialProofToastTime = 0;
+
+function getNext48HrEligibleBuyer() {
+  const now = Date.now();
+  let history = {};
+  try {
+    const raw = localStorage.getItem('bp_social_proof_history');
+    if (raw) history = JSON.parse(raw);
+  } catch(e) {}
+
+  // Filter out any name/location shown within the last 48 hours
+  const eligible = USA_BUYERS_POOL.filter(buyer => {
+    const lastShown = history[buyer.id];
+    return !lastShown || (now - lastShown >= COOLDOWN_48_HOURS_MS);
+  });
+
+  let selectedBuyer;
+  if (eligible.length > 0) {
+    // Pick randomly from eligible candidates
+    const randomIndex = Math.floor(Math.random() * eligible.length);
+    selectedBuyer = eligible[randomIndex];
+  } else {
+    // Fallback if all 120 names were shown within 48h: pick the least recently shown
+    selectedBuyer = [...USA_BUYERS_POOL].sort((a, b) => (history[a.id] || 0) - (history[b.id] || 0))[0];
+  }
+
+  // Record this buyer with the current timestamp
+  history[selectedBuyer.id] = now;
+  try {
+    localStorage.setItem('bp_social_proof_history', JSON.stringify(history));
+  } catch(e) {}
+
+  return selectedBuyer;
+}
+
+function showSocialProofToast(forceShow = false) {
+  const now = Date.now();
+  // Prevent immediate duplicate if cart opened right as recurring timer fired
+  if (!forceShow && (now - lastSocialProofToastTime < 8000)) return;
+  lastSocialProofToastTime = now;
 
   let toast = document.getElementById('social-proof-toast');
   if (!toast) {
@@ -880,33 +1041,44 @@ function initSocialProof() {
     document.body.appendChild(toast);
   }
 
-  let buyerIndex = 0;
-  function showNextProof() {
-    const buyer = recentBuyers[buyerIndex];
-    buyerIndex = (buyerIndex + 1) % recentBuyers.length;
+  const buyer = getNext48HrEligibleBuyer();
+  const minuteAgo = Math.floor(Math.random() * 25) + 2;
+  const timeText = minuteAgo === 2 ? 'Just now' : `${minuteAgo} minutes ago`;
 
-    toast.innerHTML = `
-      <div class="social-proof-icon">⚡</div>
-      <div class="social-proof-content">
-        <strong>${buyer.name} from ${buyer.loc}</strong>
-        <span>${buyer.action}</span>
-        <div class="social-proof-time">${buyer.time} • <span style="color:#2ECC71;">✓ Verified Buyer</span></div>
-      </div>
-      <button class="social-proof-close" onclick="this.parentElement.classList.remove('show')" aria-label="Close notification">✕</button>
-    `;
+  toast.innerHTML = `
+    <div class="social-proof-icon">⚡</div>
+    <div class="social-proof-content">
+      <strong>${buyer.name} from ${buyer.loc}</strong>
+      <span>${buyer.action}</span>
+      <div class="social-proof-time">${timeText} • <span style="color:#2ECC71;">✓ Verified Buyer</span></div>
+    </div>
+    <button class="social-proof-close" onclick="this.parentElement.classList.remove('show')" aria-label="Close notification">✕</button>
+  `;
 
-    toast.classList.add('show');
+  toast.classList.add('show');
 
-    setTimeout(() => {
-      toast.classList.remove('show');
-    }, 6000);
-  }
-
-  // Start after 5 seconds, repeat every 22 seconds
   setTimeout(() => {
-    showNextProof();
-    setInterval(showNextProof, 22000);
-  }, 5000);
+    toast.classList.remove('show');
+  }, 6000);
+}
+
+function initSocialProof() {
+  // 1. Initial trigger: 10 seconds after user enters the site
+  setTimeout(() => {
+    showSocialProofToast();
+  }, 10000);
+
+  // 2. Recurring trigger: every 2 minutes (120,000 ms)
+  setInterval(() => {
+    showSocialProofToast();
+  }, 120000);
+
+  // 3. Cart trigger: 2 seconds after user opens the cart
+  window.triggerCartSocialProof = function() {
+    setTimeout(() => {
+      showSocialProofToast(true);
+    }, 2000);
+  };
 }
 
 // --- Checkout Modal & Instant Download System ---
