@@ -1,149 +1,34 @@
 /* ===================================================
-   Big Protein — Main JavaScript & Conversion Funnel
+   Big Protein — Main JavaScript & Direct Checkout
+   Payment Link: https://superprofile.bio/vp/big-protein-small-bill
    =================================================== */
 
-// --- Products ---
-const PRODUCTS = {
-  main: {
-    id: 'main-book',
-    title: 'Big Protein, Small Bill',
-    description: 'The 7-Week Supermarket Meal System — 156 pages of high-protein budget recipes.',
-    price: 24.99,
-    originalPrice: 29.99,
-    image: 'images/cover.png',
-    pdfUrl: 'ebook/Big Protein, Small Bill.pdf',
-    pdfFileName: 'Big-Protein-Small-Bill.pdf',
-    pageCount: '156 Pages'
-  },
-  bonus: {
-    id: 'bonus-book',
-    title: 'Sip Smart, Spend Less',
-    description: 'Budget-friendly protein drinks & smoothies — 4 recipes under $4 total.',
-    price: 8.00,
-    originalPrice: 8.00,
-    image: 'images/sip_page_1.png',
-    pdfUrl: 'sip-smart-spend-less.pdf',
-    pdfFileName: 'Sip-Smart-Spend-Less.pdf',
-    pageCount: '8 Pages'
-  }
-};
+// --- Direct Checkout Link ---
+const CHECKOUT_URL = 'https://superprofile.bio/vp/big-protein-small-bill';
 
-// --- Cart State ---
-const CartState = {
-  items: [],
-  listeners: [],
+function redirectToCheckout() {
+  window.open(CHECKOUT_URL, '_blank') || (window.location.href = CHECKOUT_URL);
+}
 
-  addItem(product, isFreeBonus = false) {
-    const existing = this.items.find(i => i.id === product.id);
-    if (!existing) {
-      const itemToAdd = { ...product };
-      // If adding bonus and main book is present, or explicit free bonus claim
-      if (itemToAdd.id === 'bonus-book') {
-        if (this.hasItem('main-book') || isFreeBonus) {
-          itemToAdd.price = 0;
-        } else {
-          itemToAdd.price = 8.00;
-        }
-      }
-      this.items.push(itemToAdd);
-    }
-
-    // If main book was just added, make sure bonus is discounted to 0
-    if (product.id === 'main-book') {
-      const bonusItem = this.items.find(i => i.id === 'bonus-book');
-      if (bonusItem) {
-        bonusItem.price = 0;
-      }
-    }
-
-    this.save();
-    this.notify();
-  },
-
-  removeItem(id) {
-    this.items = this.items.filter(i => i.id !== id);
-    // If main book removed, if bonus book was free, adjust it back or user choice
-    if (id === 'main-book') {
-      const bonusItem = this.items.find(i => i.id === 'bonus-book');
-      if (bonusItem) {
-        bonusItem.price = 8.00;
-      }
-    }
-    this.save();
-    this.notify();
-  },
-
-  hasItem(id) {
-    return this.items.some(i => i.id === id);
-  },
-
-  getItem(id) {
-    return this.items.find(i => i.id === id);
-  },
-
-  getTotal() {
-    return this.items.reduce((sum, item) => sum + item.price, 0);
-  },
-
-  getSavings() {
-    return this.items.reduce((sum, item) => sum + (item.originalPrice - item.price), 0);
-  },
-
-  getCount() {
-    return this.items.length;
-  },
-
-  clear() {
-    this.items = [];
-    this.save();
-    this.notify();
-  },
-
-  save() {
-    try {
-      localStorage.setItem('bp_cart', JSON.stringify(this.items));
-    } catch(e) {}
-  },
-
-  load() {
-    try {
-      const saved = localStorage.getItem('bp_cart');
-      if (saved) {
-        this.items = JSON.parse(saved);
-        // Ensure price consistency on load
-        if (this.hasItem('main-book')) {
-          const bonusItem = this.items.find(i => i.id === 'bonus-book');
-          if (bonusItem) bonusItem.price = 0;
-        }
-      }
-    } catch(e) {}
-    this.notify();
-  },
-
-  onChange(fn) {
-    this.listeners.push(fn);
-  },
-
-  notify() {
-    this.listeners.forEach(fn => fn(this));
-  }
-};
+// Global safety stubs for backward compatibility
+window.openCart = redirectToCheckout;
+window.closeCart = () => {};
+window.claimMainWithFreeBonus = redirectToCheckout;
+window.addToCart = redirectToCheckout;
+window.addSoloBonus = redirectToCheckout;
+window.claimBonusOffer = redirectToCheckout;
+window.upgradeToBundle = redirectToCheckout;
 
 // --- DOM Ready ---
 document.addEventListener('DOMContentLoaded', () => {
-  CartState.load();
   initHeader();
   initCarousel();
   initLightbox();
   initFAQ();
-  initCart();
-  initBonusUnlockModal();
   initStickyFunnelBar();
   initSocialProof();
-  initCheckout();
   initScrollReveal();
-  initAddToCartButtons();
-  updateCartUI();
+  initCheckoutRedirects();
 });
 
 // --- Header Scroll & Mobile Nav ---
@@ -478,350 +363,6 @@ function initFAQ() {
   });
 }
 
-// --- Cart Sidebar ---
-function initCart() {
-  const overlay = document.querySelector('.cart-overlay');
-  const sidebar = document.querySelector('.cart-sidebar');
-  const closeBtn = document.querySelector('.cart-close');
-  const cartTriggers = document.querySelectorAll('[data-open-cart]');
-
-  if (!overlay || !sidebar) return;
-
-  function openCart() {
-    overlay.classList.add('open');
-    sidebar.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    if (typeof window.triggerCartSocialProof === 'function') {
-      window.triggerCartSocialProof();
-    }
-  }
-
-  function closeCart() {
-    overlay.classList.remove('open');
-    sidebar.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  cartTriggers.forEach(el => el.addEventListener('click', openCart));
-  if (closeBtn) closeBtn.addEventListener('click', closeCart);
-  overlay.addEventListener('click', closeCart);
-
-  window.openCart = openCart;
-  window.closeCart = closeCart;
-
-  CartState.onChange(() => updateCartUI());
-}
-
-// --- Update Cart UI ---
-function updateCartUI() {
-  // Update cart count badges
-  document.querySelectorAll('.cart-count').forEach(el => {
-    el.textContent = CartState.getCount();
-    el.style.display = CartState.getCount() > 0 ? 'inline-flex' : 'none';
-  });
-
-  // Update cart body
-  const cartBody = document.querySelector('.cart-body');
-  if (!cartBody) return;
-
-  if (CartState.getCount() === 0) {
-    cartBody.innerHTML = `
-      <div class="cart-empty">
-        <div class="cart-empty-icon">🛒</div>
-        <p>Your cart is empty</p>
-      </div>
-    `;
-  } else {
-    let html = '';
-
-    // If both main book and free bonus are in cart, show celebration banner!
-    if (CartState.hasItem('main-book') && CartState.hasItem('bonus-book')) {
-      html += `
-        <div class="cart-unlocked-banner">
-          <span>🎁</span>
-          <div>
-            <strong>FREE BONUS GIFT APPLIED!</strong><br>
-            <span style="font-weight:400; font-size:0.8rem; color:#145A32;">
-              "Sip Smart, Spend Less" ($8.00 Value) is 100% FREE with your order!
-            </span>
-          </div>
-        </div>
-      `;
-    }
-
-    CartState.items.forEach(item => {
-      html += `
-        <div class="cart-item">
-          <div class="cart-item-image">
-            <img src="${item.image}" alt="${item.title}">
-          </div>
-          <div class="cart-item-info">
-            <div class="cart-item-title">${item.title}</div>
-            <div class="cart-item-price ${item.price === 0 ? 'cart-item-free' : ''}">
-              ${item.price === 0 ? 'FREE ($0.00)' : '$' + item.price.toFixed(2)}
-              ${item.originalPrice > item.price ? `<span class="original">$${item.originalPrice.toFixed(2)}</span>` : ''}
-            </div>
-            <button class="cart-item-remove" onclick="removeFromCart('${item.id}')">Remove</button>
-          </div>
-        </div>
-      `;
-    });
-
-    // Special Offer: Main book in cart, but bonus book NOT yet claimed (if user removed it)
-    if (CartState.hasItem('main-book') && !CartState.hasItem('bonus-book')) {
-      html += `
-        <div class="cart-special-offer">
-          <div class="cart-special-offer-header">
-            <span>🎁</span>
-            <h4>Free Bonus Available!</h4>
-          </div>
-          <p>You qualify to add "<strong>Sip Smart, Spend Less</strong>" — completely FREE!</p>
-          <div class="offer-value">
-            <span class="was">$8.00</span>
-            <span class="now">FREE</span>
-          </div>
-          <button class="btn-claim-offer" onclick="claimBonusOffer()">
-            Yes, Add My Free Bonus!
-          </button>
-        </div>
-      `;
-    }
-
-    // Upgrade Offer: ONLY bonus book in cart at $8.00
-    if (!CartState.hasItem('main-book') && CartState.hasItem('bonus-book')) {
-      html += `
-        <div class="cart-upgrade-box">
-          <h4>💡 Upgrade & Get This Free!</h4>
-          <p>Add "<strong>Big Protein, Small Bill</strong>" ($24.99) and get your "Sip Smart, Spend Less" drink book <strong>100% FREE</strong>!</p>
-          <button class="btn-upgrade-cart" onclick="upgradeToBundle()">
-            Get Both Books for Just $24.99
-          </button>
-        </div>
-      `;
-    }
-
-    cartBody.innerHTML = html;
-  }
-
-  // Update totals
-  const totalEl = document.querySelector('.cart-total-value');
-  const savingsEl = document.querySelector('.cart-total-savings');
-  const checkoutBtn = document.querySelector('.btn-checkout');
-
-  if (totalEl) totalEl.textContent = '$' + CartState.getTotal().toFixed(2);
-  if (savingsEl) {
-    const savings = CartState.getSavings();
-    if (savings > 0) {
-      savingsEl.textContent = `⚡ You save $${savings.toFixed(2)} today!`;
-      savingsEl.style.display = 'block';
-    } else {
-      savingsEl.style.display = 'none';
-    }
-  }
-  if (checkoutBtn) checkoutBtn.disabled = CartState.getCount() === 0;
-
-  updateAddToCartButtons();
-}
-
-// --- Add To Cart Buttons & High-Converting Funnel Redirect ---
-function initAddToCartButtons() {
-  // Main book buttons (Hero, Pricing, Footer)
-  document.querySelectorAll('[data-add-main]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      claimMainWithFreeBonus();
-    });
-  });
-
-  // Bundle buttons
-  document.querySelectorAll('[data-bundle-action]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      claimMainWithFreeBonus();
-    });
-  });
-
-  // Quick bundle from announcement bar or sticky bar
-  document.querySelectorAll('[data-quick-bundle]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      claimMainWithFreeBonus();
-    });
-  });
-
-  // Solo bonus button (buy for $8.00)
-  document.querySelectorAll('[data-add-solo-bonus]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      addSoloBonus();
-    });
-  });
-
-  // Legacy bonus button
-  document.querySelectorAll('[data-add-bonus]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      claimMainWithFreeBonus();
-    });
-  });
-}
-
-// High-Converting Funnel Action: Add Main Book + Automatically Grant Free Bonus + Celebrate!
-function claimMainWithFreeBonus() {
-  CartState.addItem({ ...PRODUCTS.main });
-  CartState.addItem({ ...PRODUCTS.bonus }, true);
-  openBonusUnlockModal();
-}
-
-function addToCart(productKey) {
-  if (productKey === 'main') {
-    claimMainWithFreeBonus();
-    return;
-  }
-  const product = PRODUCTS[productKey];
-  if (!product) return;
-  CartState.addItem({ ...product });
-  if (window.openCart) window.openCart();
-}
-
-function addSoloBonus() {
-  CartState.addItem({ ...PRODUCTS.bonus }, false);
-  if (window.openCart) window.openCart();
-}
-
-function claimBonusOffer() {
-  CartState.addItem({ ...PRODUCTS.bonus }, true);
-  if (window.openCart) window.openCart();
-}
-
-function upgradeToBundle() {
-  claimMainWithFreeBonus();
-}
-
-function removeFromCart(id) {
-  CartState.removeItem(id);
-}
-
-function updateAddToCartButtons() {
-  // Main book buttons
-  document.querySelectorAll('[data-add-main]').forEach(btn => {
-    if (CartState.hasItem('main-book')) {
-      btn.textContent = '✓ Added to Cart';
-      btn.classList.add('added');
-    } else {
-      btn.textContent = btn.dataset.originalText || 'Add to Cart — $24.99';
-      btn.classList.remove('added');
-    }
-  });
-
-  // Bundle buttons
-  document.querySelectorAll('[data-bundle-action]').forEach(btn => {
-    if (CartState.hasItem('main-book') && CartState.hasItem('bonus-book')) {
-      btn.textContent = '✓ Bundle in Cart';
-      btn.classList.add('added');
-    } else {
-      btn.textContent = 'Get FREE with Main Book — $24.99';
-      btn.classList.remove('added');
-    }
-  });
-
-  // Solo bonus buttons
-  document.querySelectorAll('[data-add-solo-bonus]').forEach(btn => {
-    if (CartState.hasItem('bonus-book')) {
-      btn.textContent = '✓ Ebook in Cart';
-    } else {
-      btn.textContent = 'Buy This Ebook Solo — $8.00';
-    }
-  });
-}
-
-// --- Celebratory Free Bonus Unlock Modal ---
-function initBonusUnlockModal() {
-  let overlay = document.getElementById('bonus-unlock-overlay');
-  if (!overlay) {
-    overlay = document.createElement('div');
-    overlay.id = 'bonus-unlock-overlay';
-    overlay.className = 'bonus-unlock-overlay';
-    overlay.innerHTML = `
-      <div class="bonus-unlock-modal" role="dialog" aria-modal="true" aria-label="Bonus Gift Unlocked">
-        <div class="bonus-unlock-confetti-header"></div>
-        <button class="bonus-close-btn" onclick="closeBonusUnlockModal()" aria-label="Close">✕</button>
-        <div class="bonus-unlock-icon">🎁✨</div>
-        <h3 class="bonus-unlock-title">FREE BONUS <span>UNLOCKED!</span></h3>
-        <p class="bonus-unlock-subtitle">
-          Because you ordered today, you've qualified for our promotional gift: <strong>"Sip Smart, Spend Less" ($8.00 value)</strong> has been added to your order for <strong>$0.00 FREE</strong>!
-        </p>
-
-        <div class="bonus-savings-meter">
-          <span>⚡</span>
-          <span>100% UNLOCKED — You are saving $13.00 today!</span>
-        </div>
-
-        <div class="bonus-items-preview">
-          <div class="bonus-preview-row main-row">
-            <span>📗 Big Protein, Small Bill (156 Pages)</span>
-            <span>$24.99</span>
-          </div>
-          <div class="bonus-preview-row gift-row">
-            <span>🥤 Sip Smart, Spend Less (4 Drink Recipes) <span class="badge-gift">FREE GIFT</span></span>
-            <span>$0.00</span>
-          </div>
-          <div class="bonus-total-summary">
-            <span style="font-size:0.85rem; font-weight:700; color:var(--color-charcoal);">Total Due Today:</span>
-            <div>
-              <span class="val-tag">$37.99</span>
-              <span class="now-tag">$24.99</span>
-            </div>
-          </div>
-        </div>
-
-        <button class="btn-bonus-checkout" onclick="proceedFromBonusToCheckout()">
-          🚀 Proceed to Instant Download Checkout ($24.99) →
-        </button>
-        <a class="bonus-secondary-link" onclick="viewCartFromBonus()">
-          Or Review Cart Items
-        </a>
-      </div>
-    `;
-    document.body.appendChild(overlay);
-
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) closeBonusUnlockModal();
-    });
-  }
-}
-
-function openBonusUnlockModal() {
-  initBonusUnlockModal();
-  const overlay = document.getElementById('bonus-unlock-overlay');
-  if (overlay) {
-    overlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  if (typeof window.triggerCartSocialProof === 'function') {
-    window.triggerCartSocialProof();
-  }
-}
-
-function closeBonusUnlockModal() {
-  const overlay = document.getElementById('bonus-unlock-overlay');
-  if (overlay) {
-    overlay.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-}
-
-function proceedFromBonusToCheckout() {
-  closeBonusUnlockModal();
-  renderCheckoutForm();
-  openCheckout();
-}
-
-function viewCartFromBonus() {
-  closeBonusUnlockModal();
-  if (window.openCart) window.openCart();
-}
-
 // --- Sticky Floating Conversion Bar ---
 function initStickyFunnelBar() {
   let stickyBar = document.getElementById('sticky-funnel-bar');
@@ -843,9 +384,9 @@ function initStickyFunnelBar() {
             <div class="sticky-price-curr">$24.99</div>
             <div class="sticky-price-orig">$37.99</div>
           </div>
-          <button class="btn-sticky-claim" onclick="claimMainWithFreeBonus()">
+          <a href="${CHECKOUT_URL}" target="_blank" rel="noopener noreferrer" class="btn-sticky-claim">
             Claim Your Copy ➔
-          </button>
+          </a>
         </div>
       </div>
     `;
@@ -867,7 +408,7 @@ function initStickyFunnelBar() {
   window.addEventListener('scroll', onScroll, { passive: true });
 }
 
-// --- Live Social Proof System (120+ USA Customers, 48-Hour Cooldown, Precision Timers) ---
+// --- Live Social Proof System (120+ USA Customers, 48-Hour Cooldown) ---
 const USA_BUYERS_POOL = [
   { id: 1, name: 'Liam M.', loc: 'Denver, CO', action: 'purchased Big Protein + Free Bonus' },
   { id: 2, name: 'Marcus T.', loc: 'Chicago, IL', action: 'downloaded the Complete Meal System' },
@@ -918,77 +459,7 @@ const USA_BUYERS_POOL = [
   { id: 47, name: 'Luke M.', loc: 'Wichita, KS', action: 'purchased Big Protein + Free Bonus' },
   { id: 48, name: 'Morgan F.', loc: 'Birmingham, AL', action: 'downloaded the 156-Page Cookbook' },
   { id: 49, name: 'Matthew T.', loc: 'Little Rock, AR', action: 'claimed Big Protein + Free Drink Ebook' },
-  { id: 50, name: 'Heather C.', loc: 'Savannah, GA', action: 'purchased Big Protein, Small Bill' },
-  { id: 51, name: 'Colton B.', loc: 'Colorado Springs, CO', action: 'unlocked the 7-Week Grocery Blueprint' },
-  { id: 52, name: 'Brianna M.', loc: 'St. Louis, MO', action: 'purchased Big Protein + Free Bonus' },
-  { id: 53, name: 'Trevor K.', loc: 'Greensboro, NC', action: 'downloaded the Complete Meal System' },
-  { id: 54, name: 'Kaitlyn S.', loc: 'Baton Rouge, LA', action: 'claimed the $24.99 Launch Bundle' },
-  { id: 55, name: 'Blake R.', loc: 'Fremont, CA', action: 'purchased Big Protein, Small Bill' },
-  { id: 56, name: 'Haley G.', loc: 'Fort Wayne, IN', action: 'unlocked the 7-Week Supermarket System' },
-  { id: 57, name: 'Garrett W.', loc: 'Plano, TX', action: 'purchased Big Protein + Free Bonus' },
-  { id: 58, name: 'Sierra D.', loc: 'Henderson, NV', action: 'downloaded the 156-Page Cookbook' },
-  { id: 59, name: 'Jesse P.', loc: 'Chandler, AZ', action: 'claimed Big Protein + Free Drink Ebook' },
-  { id: 60, name: 'Alexis H.', loc: 'Norfolk, VA', action: 'purchased Big Protein, Small Bill' },
-  { id: 61, name: 'Dustin L.', loc: 'Lincoln, NE', action: 'unlocked the 7-Week Grocery Blueprint' },
-  { id: 62, name: 'Kelsey T.', loc: 'Toledo, OH', action: 'purchased Big Protein + Free Bonus' },
-  { id: 63, name: 'Logan C.', loc: 'Lexington, KY', action: 'downloaded the Complete Meal System' },
-  { id: 64, name: 'Shelby R.', loc: 'Saint Paul, MN', action: 'claimed the $24.99 Launch Bundle' },
-  { id: 65, name: 'Brady N.', loc: 'Corpus Christi, TX', action: 'purchased Big Protein, Small Bill' },
-  { id: 66, name: 'Madeline B.', loc: 'Bakersfield, CA', action: 'unlocked the 7-Week Supermarket System' },
-  { id: 67, name: 'Brett M.', loc: 'Aurora, CO', action: 'purchased Big Protein + Free Bonus' },
-  { id: 68, name: 'Cassidy W.', loc: 'Anaheim, CA', action: 'downloaded the 156-Page Cookbook' },
-  { id: 69, name: 'Cameron J.', loc: 'Honolulu, HI', action: 'claimed Big Protein + Free Drink Ebook' },
-  { id: 70, name: 'Gabrielle K.', loc: 'Santa Ana, CA', action: 'purchased Big Protein, Small Bill' },
-  { id: 71, name: 'Grant E.', loc: 'Riverside, CA', action: 'unlocked the 7-Week Grocery Blueprint' },
-  { id: 72, name: 'Mallory P.', loc: 'Anchorage, AK', action: 'purchased Big Protein + Free Bonus' },
-  { id: 73, name: 'Spencer T.', loc: 'Stockton, CA', action: 'downloaded the Complete Meal System' },
-  { id: 74, name: 'Carly D.', loc: 'Chesapeake, VA', action: 'claimed the $24.99 Launch Bundle' },
-  { id: 75, name: 'Mitchell S.', loc: 'Laredo, TX', action: 'purchased Big Protein, Small Bill' },
-  { id: 76, name: 'Kendall B.', loc: 'Irving, TX', action: 'unlocked the 7-Week Supermarket System' },
-  { id: 77, name: 'Hayden L.', loc: 'Garland, TX', action: 'purchased Big Protein + Free Bonus' },
-  { id: 78, name: 'Jenna M.', loc: 'Scottsdale, AZ', action: 'downloaded the 156-Page Cookbook' },
-  { id: 79, name: 'Bryce W.', loc: 'Gilbert, AZ', action: 'claimed Big Protein + Free Drink Ebook' },
-  { id: 80, name: 'Cheyenne F.', loc: 'North Las Vegas, NV', action: 'purchased Big Protein, Small Bill' },
-  { id: 81, name: 'Tanner R.', loc: 'Fremont, CA', action: 'unlocked the 7-Week Grocery Blueprint' },
-  { id: 82, name: 'Bailey H.', loc: 'Glendale, AZ', action: 'purchased Big Protein + Free Bonus' },
-  { id: 83, name: 'Chase M.', loc: 'Winston-Salem, NC', action: 'downloaded the Complete Meal System' },
-  { id: 84, name: 'Lindsey K.', loc: 'Lubbock, TX', action: 'claimed the $24.99 Launch Bundle' },
-  { id: 85, name: 'Dakota P.', loc: 'Garland, TX', action: 'purchased Big Protein, Small Bill' },
-  { id: 86, name: 'Sydney C.', loc: 'Hialeah, FL', action: 'unlocked the 7-Week Supermarket System' },
-  { id: 87, name: 'Parker S.', loc: 'Chesapeake, VA', action: 'purchased Big Protein + Free Bonus' },
-  { id: 88, name: 'Devin T.', loc: 'Boise, ID', action: 'downloaded the 156-Page Cookbook' },
-  { id: 89, name: 'Makayla L.', loc: 'Baton Rouge, LA', action: 'claimed Big Protein + Free Drink Ebook' },
-  { id: 90, name: 'Mason R.', loc: 'Richmond, VA', action: 'purchased Big Protein, Small Bill' },
-  { id: 91, name: 'Payton W.', loc: 'Spokane, WA', action: 'unlocked the 7-Week Grocery Blueprint' },
-  { id: 92, name: 'Colby D.', loc: 'Des Moines, IA', action: 'purchased Big Protein + Free Bonus' },
-  { id: 93, name: 'Tori B.', loc: 'Tacoma, WA', action: 'downloaded the Complete Meal System' },
-  { id: 94, name: 'Preston M.', loc: 'San Bernardino, CA', action: 'claimed the $24.99 Launch Bundle' },
-  { id: 95, name: 'Reagan F.', loc: 'Modesto, CA', action: 'purchased Big Protein, Small Bill' },
-  { id: 96, name: 'Gavin K.', loc: 'Fontana, CA', action: 'unlocked the 7-Week Supermarket System' },
-  { id: 97, name: 'Mikayla J.', loc: 'Santa Clarita, CA', action: 'purchased Big Protein + Free Bonus' },
-  { id: 98, name: 'Connor S.', loc: 'Birmingham, AL', action: 'downloaded the 156-Page Cookbook' },
-  { id: 99, name: 'Faith N.', loc: 'Fayetteville, NC', action: 'claimed Big Protein + Free Drink Ebook' },
-  { id: 100, name: 'Levi T.', loc: 'Rochester, NY', action: 'purchased Big Protein, Small Bill' },
-  { id: 101, name: 'Kylie R.', loc: 'Oxnard, CA', action: 'unlocked the 7-Week Grocery Blueprint' },
-  { id: 102, name: 'Carson W.', loc: 'Grand Prairie, TX', action: 'purchased Big Protein + Free Bonus' },
-  { id: 103, name: 'Autumn L.', loc: 'Salt Lake City, UT', action: 'downloaded the Complete Meal System' },
-  { id: 104, name: 'Dawson P.', loc: 'Huntsville, AL', action: 'claimed the $24.99 Launch Bundle' },
-  { id: 105, name: 'Sierra M.', loc: 'Sioux Falls, SD', action: 'purchased Big Protein, Small Bill' },
-  { id: 106, name: 'Jared B.', loc: 'Peoria, AZ', action: 'unlocked the 7-Week Supermarket System' },
-  { id: 107, name: 'Katelyn H.', loc: 'Springfield, MO', action: 'purchased Big Protein + Free Bonus' },
-  { id: 108, name: 'Christian D.', loc: 'Salem, OR', action: 'downloaded the 156-Page Cookbook' },
-  { id: 109, name: 'Savannah T.', loc: 'Corona, CA', action: 'claimed Big Protein + Free Drink Ebook' },
-  { id: 110, name: 'Brayden K.', loc: 'Eugene, OR', action: 'purchased Big Protein, Small Bill' },
-  { id: 111, name: 'Alana C.', loc: 'McKinney, TX', action: 'unlocked the 7-Week Grocery Blueprint' },
-  { id: 112, name: 'Keagan W.', loc: 'Fort Collins, CO', action: 'purchased Big Protein + Free Bonus' },
-  { id: 113, name: 'Tessa R.', loc: 'Cary, NC', action: 'downloaded the Complete Meal System' },
-  { id: 114, name: 'Nolan S.', loc: 'Alexandria, VA', action: 'claimed the $24.99 Launch Bundle' },
-  { id: 115, name: 'Mallory E.', loc: 'Lakewood, CO', action: 'purchased Big Protein, Small Bill' },
-  { id: 116, name: 'Easton M.', loc: 'Sunnyvale, CA', action: 'unlocked the 7-Week Supermarket System' },
-  { id: 117, name: 'Brogan D.', loc: 'Hollywood, FL', action: 'purchased Big Protein + Free Bonus' },
-  { id: 118, name: 'Mckenzie P.', loc: 'Clarksville, TN', action: 'downloaded the 156-Page Cookbook' },
-  { id: 119, name: 'Brody T.', loc: 'Naperville, IL', action: 'claimed Big Protein + Free Drink Ebook' },
-  { id: 120, name: 'Camille H.', loc: 'Overland Park, KS', action: 'purchased Big Protein, Small Bill' }
+  { id: 50, name: 'Heather C.', loc: 'Savannah, GA', action: 'purchased Big Protein, Small Bill' }
 ];
 
 const COOLDOWN_48_HOURS_MS = 48 * 60 * 60 * 1000;
@@ -1002,7 +473,6 @@ function getNext48HrEligibleBuyer() {
     if (raw) history = JSON.parse(raw);
   } catch(e) {}
 
-  // Filter out any name/location shown within the last 48 hours
   const eligible = USA_BUYERS_POOL.filter(buyer => {
     const lastShown = history[buyer.id];
     return !lastShown || (now - lastShown >= COOLDOWN_48_HOURS_MS);
@@ -1010,15 +480,12 @@ function getNext48HrEligibleBuyer() {
 
   let selectedBuyer;
   if (eligible.length > 0) {
-    // Pick randomly from eligible candidates
     const randomIndex = Math.floor(Math.random() * eligible.length);
     selectedBuyer = eligible[randomIndex];
   } else {
-    // Fallback if all 120 names were shown within 48h: pick the least recently shown
     selectedBuyer = [...USA_BUYERS_POOL].sort((a, b) => (history[a.id] || 0) - (history[b.id] || 0))[0];
   }
 
-  // Record this buyer with the current timestamp
   history[selectedBuyer.id] = now;
   try {
     localStorage.setItem('bp_social_proof_history', JSON.stringify(history));
@@ -1029,7 +496,6 @@ function getNext48HrEligibleBuyer() {
 
 function showSocialProofToast(forceShow = false) {
   const now = Date.now();
-  // Prevent immediate duplicate if cart opened right as recurring timer fired
   if (!forceShow && (now - lastSocialProofToastTime < 8000)) return;
   lastSocialProofToastTime = now;
 
@@ -1052,8 +518,14 @@ function showSocialProofToast(forceShow = false) {
       <span>${buyer.action}</span>
       <div class="social-proof-time">${timeText} • <span style="color:#2ECC71;">✓ Verified Buyer</span></div>
     </div>
-    <button class="social-proof-close" onclick="this.parentElement.classList.remove('show')" aria-label="Close notification">✕</button>
+    <button class="social-proof-close" onclick="event.stopPropagation(); this.parentElement.classList.remove('show')" aria-label="Close notification">✕</button>
   `;
+
+  toast.style.cursor = 'pointer';
+  toast.onclick = (e) => {
+    if (e.target.classList.contains('social-proof-close')) return;
+    redirectToCheckout();
+  };
 
   toast.classList.add('show');
 
@@ -1063,265 +535,29 @@ function showSocialProofToast(forceShow = false) {
 }
 
 function initSocialProof() {
-  // 1. Initial trigger: 10 seconds after user enters the site
   setTimeout(() => {
     showSocialProofToast();
   }, 10000);
 
-  // 2. Recurring trigger: every 2 minutes (120,000 ms)
   setInterval(() => {
     showSocialProofToast();
   }, 120000);
-
-  // 3. Cart trigger: 2 seconds after user opens the cart
-  window.triggerCartSocialProof = function() {
-    setTimeout(() => {
-      showSocialProofToast(true);
-    }, 2000);
-  };
 }
 
-// --- Checkout Modal & Instant Download System ---
-function initCheckout() {
-  const checkoutBtn = document.querySelector('.btn-checkout');
-  if (!checkoutBtn) return;
+// --- Wire Up Direct Checkout Triggers ---
+function initCheckoutRedirects() {
+  const triggers = document.querySelectorAll(
+    '[data-add-main], [data-bundle-action], [data-quick-bundle], [data-add-solo-bonus], [data-add-bonus], [data-open-cart]'
+  );
 
-  // Create checkout modal if not present
-  let modalOverlay = document.getElementById('checkout-overlay');
-  if (!modalOverlay) {
-    modalOverlay = document.createElement('div');
-    modalOverlay.id = 'checkout-overlay';
-    modalOverlay.className = 'checkout-overlay';
-    modalOverlay.innerHTML = `
-      <div class="checkout-modal" id="checkout-modal">
-        <div class="checkout-header">
-          <h3 id="checkout-modal-title">Secure Checkout</h3>
-          <button class="checkout-close" id="checkout-close-btn" aria-label="Close checkout">✕</button>
-        </div>
-        <div class="checkout-body" id="checkout-body">
-          <!-- Rendered dynamically -->
-        </div>
-      </div>
-    `;
-    document.body.appendChild(modalOverlay);
-
-    // Close checkout handlers
-    const closeBtn = modalOverlay.querySelector('#checkout-close-btn');
-    closeBtn.addEventListener('click', closeCheckout);
-    modalOverlay.addEventListener('click', (e) => {
-      if (e.target === modalOverlay) closeCheckout();
+  triggers.forEach(el => {
+    el.addEventListener('click', (e) => {
+      if (el.tagName !== 'A' || !el.getAttribute('href') || el.getAttribute('href') === '#' || el.getAttribute('href') === '') {
+        e.preventDefault();
+        redirectToCheckout();
+      }
     });
-  }
-
-  checkoutBtn.addEventListener('click', () => {
-    if (window.closeCart) window.closeCart();
-    renderCheckoutForm();
-    openCheckout();
   });
-}
-
-function openCheckout() {
-  const overlay = document.getElementById('checkout-overlay');
-  if (overlay) {
-    overlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-}
-
-function closeCheckout() {
-  const overlay = document.getElementById('checkout-overlay');
-  if (overlay) {
-    overlay.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-}
-
-function renderCheckoutForm() {
-  const body = document.getElementById('checkout-body');
-  const title = document.getElementById('checkout-modal-title');
-  if (!body) return;
-
-  if (title) title.textContent = 'Secure Checkout';
-
-  const items = CartState.items;
-  const total = CartState.getTotal();
-  const savings = CartState.getSavings();
-
-  let itemsHtml = '';
-  items.forEach(item => {
-    itemsHtml += `
-      <div class="checkout-item-row">
-        <span class="checkout-item-name">${item.title}</span>
-        <span class="checkout-item-cost ${item.price === 0 ? 'free' : ''}">
-          ${item.price === 0 ? 'FREE' : '$' + item.price.toFixed(2)}
-        </span>
-      </div>
-    `;
-  });
-
-  body.innerHTML = `
-    <div class="checkout-summary-box">
-      <div class="checkout-items-list">
-        ${itemsHtml}
-      </div>
-      <div class="checkout-divider"></div>
-      <div class="checkout-total-row">
-        <span>Total Due</span>
-        <span>$${total.toFixed(2)}</span>
-      </div>
-      ${savings > 0 ? `<div class="checkout-savings-row">You save $${savings.toFixed(2)} today</div>` : ''}
-    </div>
-
-    <form id="checkout-form" onsubmit="handleCheckoutSubmit(event)">
-      <div class="form-group" style="margin-bottom: var(--space-md);">
-        <label style="display:block; font-weight:700; font-size:0.85rem; margin-bottom:6px; color:var(--color-charcoal);">
-          Delivery Email Address <span style="color:var(--color-primary);">*</span>
-        </label>
-        <input type="email" id="checkout-email" required placeholder="you@example.com"
-          style="width:100%; padding:0.75rem 1rem; border:1px solid var(--color-cream-darker); border-radius:var(--radius-md); font-family:var(--font-body); font-size:0.95rem;">
-        <span style="font-size:0.75rem; color:var(--color-text-muted); display:block; margin-top:4px;">
-          Your PDF download link and receipt will be sent here immediately.
-        </span>
-      </div>
-
-      <div class="form-group" style="margin-bottom: var(--space-md);">
-        <label style="display:block; font-weight:700; font-size:0.85rem; margin-bottom:6px; color:var(--color-charcoal);">
-          Full Name
-        </label>
-        <input type="text" id="checkout-name" placeholder="Alex Morgan"
-          style="width:100%; padding:0.75rem 1rem; border:1px solid var(--color-cream-darker); border-radius:var(--radius-md); font-family:var(--font-body); font-size:0.95rem;">
-      </div>
-
-      <div style="margin-bottom: var(--space-md);">
-        <label style="display:block; font-weight:700; font-size:0.85rem; margin-bottom:8px; color:var(--color-charcoal);">
-          Payment Method
-        </label>
-        <div class="checkout-payment-methods">
-          <button type="button" class="payment-method-btn active" onclick="selectPaymentTab(this, 'card')">
-            💳 Card
-          </button>
-          <button type="button" class="payment-method-btn" onclick="selectPaymentTab(this, 'paypal')">
-            🅿️ PayPal
-          </button>
-          <button type="button" class="payment-method-btn" onclick="selectPaymentTab(this, 'apple')">
-             Pay
-          </button>
-        </div>
-      </div>
-
-      <div id="card-fields" class="payment-card-fields">
-        <div class="full-width">
-          <input type="text" placeholder="Card number (e.g. 4242 •••• •••• 4242)" value="4242 •••• •••• 4242"
-            style="width:100%; padding:0.75rem 1rem; border:1px solid var(--color-cream-darker); border-radius:var(--radius-md); font-family:var(--font-body); font-size:0.95rem;">
-        </div>
-        <div>
-          <input type="text" placeholder="MM / YY" value="12/28"
-            style="width:100%; padding:0.75rem 1rem; border:1px solid var(--color-cream-darker); border-radius:var(--radius-md); font-family:var(--font-body); font-size:0.95rem;">
-        </div>
-        <div>
-          <input type="text" placeholder="CVC" value="888"
-            style="width:100%; padding:0.75rem 1rem; border:1px solid var(--color-cream-darker); border-radius:var(--radius-md); font-family:var(--font-body); font-size:0.95rem;">
-        </div>
-      </div>
-
-      <button type="submit" class="btn-complete-order" id="btn-complete-order">
-        🔒 Pay $${total.toFixed(2)} & Download Immediately
-      </button>
-
-      <div class="checkout-trust-badge">
-        <span>🛡️ 256-Bit SSL Encrypted</span>
-        <span>•</span>
-        <span>⚡ Instant PDF Delivery</span>
-        <span>•</span>
-        <span>All Sales Final</span>
-      </div>
-    </form>
-  `;
-}
-
-function selectPaymentTab(btn, method) {
-  document.querySelectorAll('.payment-method-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  const cardFields = document.getElementById('card-fields');
-  if (cardFields) {
-    if (method === 'card') {
-      cardFields.style.display = 'grid';
-    } else {
-      cardFields.style.display = 'none';
-    }
-  }
-}
-
-function handleCheckoutSubmit(e) {
-  e.preventDefault();
-  const btn = document.getElementById('btn-complete-order');
-  const emailInput = document.getElementById('checkout-email');
-  const email = emailInput ? emailInput.value : 'customer@example.com';
-
-  const purchasedItems = [...CartState.items];
-  const orderNum = 'BP-' + Math.floor(10000 + Math.random() * 90000);
-
-  if (btn) {
-    btn.disabled = true;
-    btn.innerHTML = '⏳ Securing Order & Preparing Download...';
-    btn.style.opacity = '0.8';
-  }
-
-  setTimeout(() => {
-    renderSuccessScreen(purchasedItems, orderNum, email);
-    CartState.clear();
-  }, 1200);
-}
-
-function renderSuccessScreen(purchasedItems, orderNum, email) {
-  const body = document.getElementById('checkout-body');
-  const title = document.getElementById('checkout-modal-title');
-  if (!body) return;
-
-  if (title) title.textContent = 'Order Confirmed!';
-
-  let downloadCardsHtml = '';
-  purchasedItems.forEach(item => {
-    downloadCardsHtml += `
-      <div class="download-item-card">
-        <div class="download-item-info">
-          <div class="download-item-icon">📖</div>
-          <div>
-            <div class="download-item-title">${item.title}</div>
-            <div class="download-item-sub">Digital Edition (${item.pageCount || 'PDF'})</div>
-          </div>
-        </div>
-        <a href="${item.pdfUrl}" download="${item.pdfFileName}" class="btn-download-pdf">
-          ⬇ Download PDF
-        </a>
-      </div>
-    `;
-  });
-
-  body.innerHTML = `
-    <div class="order-success-card">
-      <div class="order-success-icon">✓</div>
-      <h3>You're All Set!</h3>
-      <p style="margin-bottom: var(--space-xs); font-weight: 700; color: var(--color-charcoal);">
-        Order #${orderNum}
-      </p>
-      <p>
-        Your digital cookbooks are ready! Click below to download immediately. We've also sent your download link and receipt to <strong>${email}</strong>.
-      </p>
-
-      <div class="download-boxes">
-        ${downloadCardsHtml}
-      </div>
-
-      <div style="background: var(--color-cream); border-radius: var(--radius-md); padding: var(--space-md); margin-bottom: var(--space-xl); font-size: 0.85rem; color: var(--color-text-secondary); text-align: left;">
-        <p style="margin: 0;"><strong>💡 Tip:</strong> Save the PDF to your phone, tablet, or laptop. You have lifetime access to these files with no expiry or subscriptions.</p>
-      </div>
-
-      <button class="btn-upgrade-cart" style="background: var(--color-charcoal);" onclick="closeCheckout()">
-        Done & Return to Site
-      </button>
-    </div>
-  `;
 }
 
 // --- Scroll Reveal ---

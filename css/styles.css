@@ -432,10 +432,12 @@ p {
 .hero-cta {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  text-decoration: none;
   gap: var(--space-sm);
   padding: 1rem 2.5rem;
   background: var(--color-primary);
-  color: var(--color-white);
+  color: var(--color-white) !important;
   border: none;
   border-radius: var(--radius-full);
   font-family: var(--font-body);
@@ -447,6 +449,12 @@ p {
   transition: all var(--transition-fast);
   box-shadow: 0 4px 20px rgba(230, 95, 43, 0.3);
   animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+.hero-cta:hover,
+.hero-cta:visited,
+.hero-cta:active {
+  color: var(--color-white) !important;
 }
 
 .hero-cta:hover {
@@ -1213,10 +1221,13 @@ p {
 }
 
 .btn-add-cart {
+  display: block;
+  text-align: center;
+  text-decoration: none;
   width: 100%;
   padding: 0.9rem;
   background: var(--color-primary);
-  color: var(--color-white);
+  color: var(--color-white) !important;
   border: none;
   border-radius: var(--radius-md);
   font-family: var(--font-body);
@@ -1230,12 +1241,39 @@ p {
 
 .btn-add-cart:hover {
   background: var(--color-primary-dark);
+  color: var(--color-white) !important;
   transform: translateY(-1px);
 }
 
 .btn-add-cart.added {
   background: var(--color-success);
   cursor: default;
+}
+
+.btn-add-cart-solo {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: var(--space-sm);
+  background: transparent;
+  color: var(--color-charcoal) !important;
+  border: 1.5px solid var(--color-cream-darker);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-add-cart-solo:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary) !important;
+  transform: translateY(-1px);
 }
 
 .btn-add-cart-bonus {
@@ -3202,9 +3240,13 @@ p {
 }
 
 .btn-sticky-claim {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
   padding: 0.75rem 1.4rem;
   background: var(--color-primary);
-  color: var(--color-white);
+  color: var(--color-white) !important;
   border: none;
   border-radius: var(--radius-md);
   font-family: var(--font-body);
@@ -3214,6 +3256,12 @@ p {
   white-space: nowrap;
   transition: all var(--transition-fast);
   box-shadow: 0 4px 15px rgba(230, 95, 43, 0.5);
+}
+
+.btn-sticky-claim:hover,
+.btn-sticky-claim:visited,
+.btn-sticky-claim:active {
+  color: var(--color-white) !important;
 }
 
 .btn-sticky-claim:hover {
