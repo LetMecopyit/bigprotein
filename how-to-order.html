@@ -374,9 +374,17 @@
         padding: 1.6rem;
       }
     }
+
+    /* Suppress bottom floating conversion bar on guide page */
+    .sticky-funnel-bar,
+    #sticky-funnel-bar {
+      display: none !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
   </style>
 </head>
-<body>
+<body class="no-sticky-bar">
 
   <!-- ========== HEADER ========== -->
   <header class="site-header" id="site-header">

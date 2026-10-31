@@ -432,6 +432,17 @@ function initFAQ() {
 
 // --- Sticky Floating Conversion Bar ---
 function initStickyFunnelBar() {
+  // Do not show on how-to-order guide page or informational pages
+  if (window.location.href.includes('how-to-order') ||
+      document.body.classList.contains('no-sticky-bar') ||
+      document.querySelector('.guide-page-hero') ||
+      window.location.pathname.includes('privacy') ||
+      window.location.pathname.includes('terms') ||
+      window.location.pathname.includes('refund') ||
+      window.location.pathname.includes('contact')) {
+    return;
+  }
+
   let stickyBar = document.getElementById('sticky-funnel-bar');
   if (!stickyBar) {
     stickyBar = document.createElement('div');
