@@ -165,7 +165,8 @@ p {
   left: 0;
   right: 0;
   width: 100%;
-  height: var(--header-height);
+  height: auto;
+  min-height: var(--header-height);
   background: rgba(249, 246, 240, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -179,11 +180,97 @@ p {
   box-shadow: var(--shadow-md);
 }
 
+/* --- Sticky Top Order Guide Notice Bar --- */
+.sticky-order-bar {
+  background: linear-gradient(90deg, #1C1917 0%, #2A170F 50%, #1C1917 100%);
+  color: var(--color-white);
+  padding: 7px 1rem;
+  border-bottom: 1px solid rgba(230, 95, 43, 0.4);
+  font-size: 0.82rem;
+  width: 100%;
+}
+
+.sticky-order-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.sticky-order-badge {
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 800;
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sticky-order-badge .pulse-dot {
+  width: 6px;
+  height: 6px;
+  background: #2ECC71;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #2ECC71;
+  animation: pulseDot 1.5s infinite;
+}
+
+.sticky-order-text {
+  color: rgba(249, 246, 240, 0.95);
+  font-weight: 500;
+}
+
+.sticky-order-text strong {
+  color: var(--color-accent);
+  letter-spacing: 0.05em;
+}
+
+.sticky-order-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(244, 196, 48, 0.2);
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.sticky-order-btn:hover {
+  background: var(--color-accent);
+  color: var(--color-charcoal);
+  border-color: var(--color-accent);
+  transform: translateY(-1px);
+}
+
+.nav-order-link {
+  color: var(--color-primary) !important;
+  font-weight: 700 !important;
+}
+
+.nav-order-link:hover {
+  color: var(--color-primary-dark) !important;
+}
+
 .header-inner {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 var(--space-xl);
-  height: 100%;
+  height: var(--header-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2590,6 +2677,25 @@ p {
 @media (max-width: 768px) {
   :root {
     --space-4xl: 3.5rem;
+  }
+
+  .sticky-order-bar {
+    padding: 6px 10px;
+  }
+
+  .sticky-order-inner {
+    gap: 8px;
+    font-size: 0.76rem;
+  }
+
+  .sticky-order-text {
+    font-size: 0.75rem;
+    line-height: 1.35;
+  }
+
+  .sticky-order-btn {
+    font-size: 0.72rem;
+    padding: 2px 8px;
   }
 
   .nav-links {

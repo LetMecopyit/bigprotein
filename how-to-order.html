@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Order & Claim Free Bonus — Step-by-Step Visual Guide | Big Protein</title>
+  <meta name="description" content="Official step-by-step visual checkout guide for Big Protein, Small Bill. Learn how to copy coupon FREEDRINK, understand currency conversion (INR/USD), and claim your free drink ebook.">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* Dedicated How to Order Guide Styles */
+    .guide-page-hero {
+      background: linear-gradient(180deg, #1A1A1A 0%, #26170E 100%);
+      color: var(--color-white);
+      padding: calc(var(--header-height) + 2rem) 0 3.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .guide-page-hero::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      right: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(230, 95, 43, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .guide-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(244, 196, 48, 0.2);
+      border: 1px solid var(--color-accent);
+      color: var(--color-accent);
+      padding: 4px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-md);
+    }
+
+    .guide-page-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      letter-spacing: 0.02em;
+      line-height: 1.05;
+      color: var(--color-white);
+      margin-bottom: var(--space-md);
+    }
+
+    .guide-page-hero h1 span {
+      color: var(--color-primary);
+    }
+
+    .guide-page-hero p.lead {
+      color: rgba(249, 246, 240, 0.85);
+      font-size: 1.08rem;
+      max-width: 680px;
+      margin: 0 auto var(--space-xl);
+      line-height: 1.6;
+    }
+
+    .guide-quick-pills {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .guide-pill {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--color-cream);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .guide-pill strong {
+      color: var(--color-accent);
+    }
+
+    /* Steps Section */
+    .guide-content-section {
+      padding: 3.5rem 0 5rem;
+      background: var(--color-cream);
+    }
+
+    .guide-timeline {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    .step-card {
+      background: var(--color-white);
+      border: 1px solid var(--color-cream-darker);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+      padding: 2.2rem;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 2.5rem;
+      align-items: center;
+      transition: transform var(--transition-base), box-shadow var(--transition-base);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step-card:hover {
+      box-shadow: 0 12px 40px rgba(230, 95, 43, 0.12);
+      transform: translateY(-2px);
+    }
+
+    .step-card.reverse {
+      grid-template-columns: 1fr 320px;
+    }
+
+    .step-card.reverse .step-media {
+      order: 2;
+    }
+
+    .step-card.reverse .step-info {
+      order: 1;
+    }
+
+    .step-media {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .step-phone-frame {
+      max-width: 290px;
+      width: 100%;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18), 0 0 0 4px #1A1A1A;
+      border: 2px solid #333333;
+      background: #000;
+      transition: transform var(--transition-slow);
+    }
+
+    .step-phone-frame:hover {
+      transform: scale(1.02);
+    }
+
+    .step-phone-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .step-info {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .step-header-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .step-number-badge {
+      background: var(--color-primary);
+      color: var(--color-white);
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      line-height: 1;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      letter-spacing: 0.05em;
+    }
+
+    .step-subheading {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+      color: var(--color-primary-dark);
+    }
+
+    .step-info h3 {
+      font-size: 1.55rem;
+      color: var(--color-charcoal);
+      line-height: 1.25;
+      margin: 2px 0 6px;
+    }
+
+    .step-info p {
+      font-size: 0.98rem;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      margin-bottom: var(--space-xs);
+    }
+
+    .step-highlight-box {
+      background: var(--color-cream);
+      border-left: 3.5px solid var(--color-primary);
+      padding: 12px 16px;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      font-size: 0.9rem;
+      color: var(--color-charcoal);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .step-highlight-box strong {
+      color: var(--color-primary-dark);
+    }
+
+    .step-currency-alert {
+      background: #FFF8E7;
+      border-left: 3.5px solid var(--color-accent-dark);
+      padding: 14px 16px;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      font-size: 0.9rem;
+      color: #5A4000;
+      margin-top: 10px;
+      line-height: 1.55;
+    }
+
+    .step-currency-alert strong {
+      color: #2E2000;
+    }
+
+    .step-currency-alert .currency-math {
+      display: inline-block;
+      background: rgba(244, 196, 48, 0.35);
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      color: #1A1A1A;
+      font-family: monospace;
+      font-size: 0.92rem;
+      margin: 4px 0;
+    }
+
+    .step-verification-alert {
+      background: #E8F8F5;
+      border-left: 3.5px solid var(--color-success);
+      padding: 12px 16px;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      font-size: 0.9rem;
+      color: #0E6251;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    .step-verification-alert strong {
+      color: #0B4F41;
+    }
+
+    .step-copy-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #1A1A1A;
+      color: #FFFFFF;
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      margin-top: 10px;
+      width: fit-content;
+    }
+
+    .step-copy-code {
+      font-family: monospace;
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--color-accent);
+      letter-spacing: 0.1em;
+    }
+
+    /* Desktop View Notice Box */
+    .pc-view-notice-banner {
+      background: linear-gradient(135deg, #1C1917 0%, #2A170F 100%);
+      color: var(--color-white);
+      border: 1.5px dashed var(--color-accent);
+      border-radius: var(--radius-xl);
+      padding: 2rem 2.5rem;
+      margin: 3.5rem auto 1rem;
+      max-width: 960px;
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .pc-notice-icon {
+      font-size: 2.8rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .pc-notice-content h4 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      letter-spacing: 0.03em;
+      color: var(--color-accent);
+      margin-bottom: 6px;
+    }
+
+    .pc-notice-content p {
+      color: rgba(249, 246, 240, 0.9);
+      font-size: 0.95rem;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    /* Bottom Action CTA */
+    .guide-bottom-cta {
+      background: #1A1A1A;
+      color: var(--color-white);
+      padding: 4.5rem 0;
+      text-align: center;
+    }
+
+    .guide-bottom-cta h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--color-white);
+      margin-bottom: var(--space-md);
+    }
+
+    .guide-bottom-cta p {
+      color: rgba(249, 246, 240, 0.7);
+      max-width: 540px;
+      margin: 0 auto var(--space-xl);
+      font-size: 1.05rem;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 860px) {
+      .step-card,
+      .step-card.reverse {
+        grid-template-columns: 1fr;
+        padding: 1.6rem;
+        gap: 1.8rem;
+      }
+
+      .step-card.reverse .step-media {
+        order: 0;
+      }
+
+      .step-card.reverse .step-info {
+        order: 1;
+      }
+
+      .step-phone-frame {
+        max-width: 260px;
+      }
+
+      .pc-view-notice-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header class="site-header" id="site-header">
+    <!-- Sticky How to Order Notice Bar -->
+    <aside class="sticky-order-bar" aria-label="Order Guide Announcement">
+      <div class="sticky-order-inner">
+        <span class="sticky-order-badge"><span class="pulse-dot"></span> 📖 ORDER GUIDE</span>
+        <span class="sticky-order-text">Official Step-by-Step Checkout &amp; Discount Guide for <strong>Big Protein</strong></span>
+        <a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" class="sticky-order-btn" onclick="handleCheckoutClick(event, this)">Open Payment Gateway ➔</a>
+      </div>
+    </aside>
+
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-text">BIG<span>PROTEIN</span></span>
+      </a>
+
+      <nav>
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html#preview">Preview</a></li>
+          <li><a href="how-to-order.html" style="color: var(--color-primary); font-weight: 700;">How to Order</a></li>
+          <li><a href="index.html#features">What's Inside</a></li>
+          <li><a href="index.html#comparison">Savings</a></li>
+          <li><a href="index.html#pricing">Pricing</a></li>
+          <li><a href="index.html#faq">FAQ</a></li>
+          <li>
+            <a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" class="nav-cta" onclick="handleCheckoutClick(event, this)">
+              ⚡ Order Now ➔
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========== GUIDE HERO ========== -->
+  <section class="guide-page-hero">
+    <div class="container">
+      <div class="guide-hero-badge">📖 Official Visual Checkout Guide</div>
+      <h1>HOW TO ORDER &amp; CLAIM YOUR <span>FREE DRINK BOOK</span></h1>
+      <p class="lead">
+        A transparent, step-by-step walkthrough showing you exactly what happens when you purchase. From copying code <strong>FREEDRINK</strong> to instant PDF download on your device.
+      </p>
+
+      <div class="guide-quick-pills">
+        <span class="guide-pill">⚡ <strong>100% Instant PDF Access</strong></span>
+        <span class="guide-pill">🔒 <strong>Verified Cosmofeed Gateway</strong></span>
+        <span class="guide-pill">💳 <strong>Pay in USD / INR / EUR / SGD</strong></span>
+        <span class="guide-pill">🎁 <strong>Free $8 Drink Book with Code</strong></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== STEP BY STEP WALKTHROUGH ========== -->
+  <section class="guide-content-section">
+    <div class="container">
+      <div class="guide-timeline">
+
+        <!-- STEP 1 -->
+        <article class="step-card">
+          <div class="step-media">
+            <div class="step-phone-frame">
+              <img src="images/Payment%20process/1.jpeg" alt="Step 1: Big Protein Landing Page" loading="lazy">
+            </div>
+          </div>
+          <div class="step-info">
+            <div class="step-header-tag">
+              <span class="step-number-badge">STEP 01</span>
+              <span class="step-subheading">Landing Page Overview</span>
+            </div>
+            <h3>When You Open the Big Protein Site</h3>
+            <p>
+              When you load <strong>bigprotein.utility.forum</strong> on your phone or computer, you'll see the complete 7-week supermarket meal system details, macro summaries, verified social proof, and current pricing ($24.99).
+            </p>
+            <div class="step-highlight-box">
+              <strong>Quick Tip:</strong> You can read through the recipes and grocery list breakdown, or tap the orange order button at any time.
+            </div>
+          </div>
+        </article>
+
+        <!-- STEP 2 -->
+        <article class="step-card reverse">
+          <div class="step-media">
+            <div class="step-phone-frame">
+              <img src="images/Payment%20process/2.jpeg" alt="Step 2: VIP Coupon Box on Big Protein" loading="lazy">
+            </div>
+          </div>
+          <div class="step-info">
+            <div class="step-header-tag">
+              <span class="step-number-badge">STEP 02</span>
+              <span class="step-subheading">Find Your VIP Coupon Box</span>
+            </div>
+            <h3>Locate Your Exclusive Bonus Coupon</h3>
+            <p>
+              Scroll down past the book cover to find the VIP launch voucher card. To celebrate our launch, our $8.00 <em>"Sip Smart, Spend Less"</em> protein drink ebook is discounted down to just <strong>$1.00</strong>.
+            </p>
+            <p>
+              Using secret code <strong>FREEDRINK</strong> at checkout will subtract that $1.00 — getting you the entire drink cookbook <strong>100% FREE ($0.00)</strong>!
+            </p>
+            <div class="step-highlight-box">
+              <strong>Offer Summary:</strong> Get the 156-page cookbook + the $8 drink ebook for just $24.99 total.
+            </div>
+          </div>
+        </article>
+
+        <!-- STEP 3 -->
+        <article class="step-card">
+          <div class="step-media">
+            <div class="step-phone-frame">
+              <img src="images/Payment%20process/3.jpeg" alt="Step 3: Copy Code FREEDRINK" loading="lazy">
+            </div>
+          </div>
+          <div class="step-info">
+            <div class="step-header-tag">
+              <span class="step-number-badge">STEP 03</span>
+              <span class="step-subheading">Copy Code FREEDRINK</span>
+            </div>
+            <h3>Tap "Copy Code" to Save Promo Code</h3>
+            <p>
+              Tap the orange <strong>📋 Copy Code</strong> button on the voucher card. The button will immediately flash <strong>✓ Copied!</strong>, and code <strong>FREEDRINK</strong> is automatically saved onto your device's clipboard.
+            </p>
+            <div class="step-copy-box">
+              <span>Promo Code:</span>
+              <span class="step-copy-code">FREEDRINK</span>
+              <button class="btn-copy-code" onclick="copyCouponCode('FREEDRINK', this)">
+                <span>📋</span> Copy Code
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- STEP 4 -->
+        <article class="step-card reverse">
+          <div class="step-media">
+            <div class="step-phone-frame">
+              <img src="images/Payment%20process/4.jpeg" alt="Step 4: Tap Get The Book Button" loading="lazy">
+            </div>
+          </div>
+          <div class="step-info">
+            <div class="step-header-tag">
+              <span class="step-number-badge">STEP 04</span>
+              <span class="step-subheading">Proceed to Checkout</span>
+            </div>
+            <h3>Tap the Orange "Get The Book" Button</h3>
+            <p>
+              Scroll back up to the top of the page and tap the primary action button:
+              <br>
+              <strong style="color:var(--color-primary-dark);">⚡ GET THE BOOK + FREE DRINK BONUS — $24.99 ➔</strong>.
+            </p>
+            <p>
+              This safely transfers you directly to our official, encrypted payment gateway on SuperProfile &amp; Cosmofeed.
+            </p>
+          </div>
+        </article>
+
+        <!-- STEP 5 -->
+        <article class="step-card">
+          <div class="step-media">
+            <div class="step-phone-frame">
+              <img src="images/Payment%20process/5.jpeg" alt="Step 5: SuperProfile / Cosmofeed Landing Page" loading="lazy">
+            </div>
+          </div>
+          <div class="step-info">
+            <div class="step-header-tag">
+              <span class="step-number-badge">STEP 05</span>
+              <span class="step-subheading">Official Payment Gateway</span>
+            </div>
+            <h3>SuperProfile Gateway &amp; Currency Note (₹ INR)</h3>
+            <p>
+              You will arrive at our official SuperProfile checkout page (<code>superprofile.bio/vp/big-protein-small-bill</code>).
+            </p>
+            <div class="step-currency-alert">
+              <strong>💡 Understanding the ₹ INR Currency Symbol:</strong><br>
+              Cosmofeed is an international creator payment network natively based in India. If you visit from a phone, you will likely see the price in Indian Rupees (e.g. <code>₹2,371.86</code>).
+              <br><br>
+              <span class="currency-math">₹2,371.86 INR = $24.99 USD</span>
+              <br><br>
+              <strong>This is 100% normal and expected.</strong> You can pay with any international credit/debit card, Apple Pay, Google Pay, or PayPal. Your bank handles the conversion automatically with zero extra fees!
+            </div>
+          </div>
+        </article>
+
+        <!-- STEP 6 -->
+        <article class="step-card reverse">
+          <div class="step-media">
+            <div class="step-phone-frame">
+              <img src="images/Payment%20process/6.jpeg" alt="Step 6: Product Description & Get Instant Access" loading="lazy">
+            </div>
+          </div>
+          <div class="step-info">
+            <div class="step-header-tag">
+              <span class="step-number-badge">STEP 06</span>
+              <span class="step-subheading">Instant Access Trigger</span>
+            </div>
+            <h3>Tap "Get Instant Access" to Open Checkout</h3>
+            <p>
+              If you want to review the full feature list, recipe count, and prep times, you can scroll through the description.
+            </p>
+            <p>
+              When ready to complete your purchase, tap the blue button at the bottom:
+              <br>
+              <strong style="color:#0070BA;">Get Instant Access ➔</strong>
+            </p>
+            <div class="step-highlight-box">
+              <strong>💻 PC &amp; Mac Note:</strong> If you are browsing on a computer rather than a phone, Steps 5, 6, 7, and 8 appear unified on a single widescreen layout with no separate drawer!
+            </div>
+          </div>
+        </article>
+
+        <!-- STEP 7 -->
+        <article class="step-card">
+          <div class="step-media">
+            <div class="step-phone-frame">
+              <img src="images/Payment%20process/7.jpeg" alt="Step 7: Verification, Order Bump and Promo Code Input" loading="lazy">
+            </div>
+          </div>
+          <div class="step-info">
+            <div class="step-header-tag">
+              <span class="step-number-badge">STEP 07</span>
+              <span class="step-subheading">Identity Verification &amp; Promo Code</span>
+            </div>
+            <h3>Email Verification, Drink Book &amp; Code Input</h3>
+            <p>The secure checkout drawer will pop up with 4 quick steps:</p>
+            <ol style="margin-left: 1.2rem; color: var(--color-charcoal); line-height: 1.7; font-size: 0.95rem;">
+              <li>
+                <strong>Verify Email:</strong> Enter your email address and click <strong>Verify</strong>. A fast email verification confirms your identity and blocks automated spam bots. <em>(You verify via email, NOT phone OTP!)</em>
+              </li>
+              <li>
+                <strong>Check the Drink Book:</strong> Check the box for <em>"Sip Smart Spend Less"</em> (marked to just $1.00 / ₹96).
+              </li>
+              <li>
+                <strong>Choose Your Currency:</strong> Use the <em>"Pay in"</em> dropdown to pick <strong>USD ($)</strong>, INR (₹), EUR (€), GBP (£), SGD ($), or CAD ($).
+              </li>
+              <li>
+                <strong>Enter Promo Code:</strong> In the coupon field, paste <strong>FREEDRINK</strong> and click <strong>Add</strong>.
+              </li>
+            </ol>
+            <div class="step-verification-alert">
+              <strong>🛡️ Why Email Verification?</strong> We use email confirmation so your personal PDF download access link is verified and instantly delivered directly to your inbox without risking typos or lost files.
+            </div>
+          </div>
+        </article>
+
+        <!-- STEP 8 -->
+        <article class="step-card reverse">
+          <div class="step-media">
+            <div class="step-phone-frame">
+              <img src="images/Payment%20process/8.jpeg" alt="Step 8: Coupon Verified and 100% Free Drink Book" loading="lazy">
+            </div>
+          </div>
+          <div class="step-info">
+            <div class="step-header-tag">
+              <span class="step-number-badge">STEP 08</span>
+              <span class="step-subheading">Coupon Applied &amp; Complete Access</span>
+            </div>
+            <h3>Coupon Verified — Drink Book 100% FREE!</h3>
+            <p>
+              A green <strong>✓ Coupon verified!</strong> badge appears. The -$1.01 discount is instantly subtracted, making the drink cookbook <strong>$0.00 (100% FREE)</strong>!
+            </p>
+            <p>
+              Your final order total stays at your launch bundle price ($24.90).
+            </p>
+            <p>
+              Tap <strong style="color:#0070BA;">Get Instant Access ➔</strong> to complete payment with any major Credit/Debit Card, Apple Pay, Google Pay, or PayPal.
+            </p>
+            <div class="step-highlight-box">
+              <strong>🎉 Instant Download:</strong> The moment payment finishes, your complete Big Protein cookbook and bonus drink ebook download links unlock immediately on screen and are also sent straight to your verified email for lifetime access!
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- PC & Desktop Unified View Box -->
+      <div class="pc-view-notice-banner">
+        <div class="pc-notice-icon">💻</div>
+        <div class="pc-notice-content">
+          <h4>Ordering on PC or Mac Desktop?</h4>
+          <p>
+            If you are browsing on desktop rather than mobile, the checkout experience is even faster! Pages 5, 6, 7, and 8 are unified onto a single widescreen checkout window where you can enter your email, apply code <strong>FREEDRINK</strong>, choose USD ($), and checkout in seconds.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== BOTTOM ACTION CTA ========== -->
+  <section class="guide-bottom-cta">
+    <div class="container">
+      <h2>READY TO EAT BIG &amp; SPEND LESS?</h2>
+      <p>
+        Seven weeks of high-protein supermarket meals that hit 120g+ protein a day for under $75 a week. Includes the free drink bonus today.
+      </p>
+      <a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" class="hero-cta funnel-btn-pulse" onclick="handleCheckoutClick(event, this)" style="display:inline-flex; text-decoration:none;">
+        ⚡ Claim Book + Free Drink Bonus With Code FREEDRINK ➔
+      </a>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo-text">BIG<span style="color:var(--color-primary);">PROTEIN</span></div>
+          <p>High-protein budget cooking made simple. Real food, real prices, real results.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" onclick="handleCheckoutClick(event, this)">Big Protein, Small Bill</a></li>
+            <li><a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" onclick="handleCheckoutClick(event, this)">Sip Smart, Spend Less</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Learn More</h4>
+          <ul>
+            <li><a href="how-to-order.html">How to Order Guide</a></li>
+            <li><a href="index.html#features">What's Inside</a></li>
+            <li><a href="index.html#comparison">Savings Breakdown</a></li>
+            <li><a href="index.html#preview">Book Preview</a></li>
+            <li><a href="index.html#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="refund.html">Refund Policy</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Big Protein. All rights reserved.</p>
+        <div class="footer-payments">
+          <span>Visa</span>
+          <span>Mastercard</span>
+          <span>PayPal</span>
+          <span>Stripe</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

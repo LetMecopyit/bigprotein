@@ -12,6 +12,15 @@
 
   <!-- ========== HEADER ========== -->
   <header class="site-header" id="site-header">
+    <!-- Sticky How to Order Notice Bar -->
+    <aside class="sticky-order-bar" aria-label="Order Guide Announcement">
+      <div class="sticky-order-inner">
+        <span class="sticky-order-badge"><span class="pulse-dot"></span> 📖 ORDER GUIDE</span>
+        <span class="sticky-order-text">First time ordering? Learn how to order &amp; claim code <strong>FREEDRINK</strong></span>
+        <a href="how-to-order.html" class="sticky-order-btn">8-Step Visual Guide ➔</a>
+      </div>
+    </aside>
+
     <div class="header-inner">
       <a href="index.html" class="logo">
         <span class="logo-text">BIG<span>PROTEIN</span></span>
@@ -20,12 +29,13 @@
       <nav>
         <ul class="nav-links" id="nav-links">
           <li><a href="#preview">Preview</a></li>
+          <li><a href="how-to-order.html" class="nav-order-link">How to Order</a></li>
           <li><a href="#features">What's Inside</a></li>
           <li><a href="#comparison">Savings</a></li>
           <li><a href="#pricing">Pricing</a></li>
           <li><a href="#faq">FAQ</a></li>
           <li>
-            <a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" class="nav-cta">
+            <a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" class="nav-cta" onclick="handleCheckoutClick(event, this)">
               ⚡ Order Now ➔
             </a>
           </li>
@@ -497,7 +507,7 @@
           </button>
           <div class="faq-answer">
             <div class="faq-answer-inner">
-              On our official payment gateway, the <em>"Sip Smart, Spend Less"</em> drink ebook is listed at just <strong>$1.00</strong> (discounted from $8.00). Simply paste coupon code <strong>FREEDRINK</strong> in the promo/coupon box at checkout, and $1.00 will be instantly deducted — giving you the entire drink cookbook <strong>100% FREE ($0.00)</strong>!
+              On our official payment gateway, the <em>"Sip Smart, Spend Less"</em> drink ebook is listed at just <strong>$1.00</strong> (discounted from $8.00). Simply paste coupon code <strong>FREEDRINK</strong> in the promo/coupon box at checkout, and $1.00 will be instantly deducted — giving you the entire drink cookbook <strong>100% FREE ($0.00)</strong>! Want to see screenshots of the exact checkout screen? <a href="how-to-order.html" style="font-weight:700; text-decoration:underline;">Read our 8-Step Visual Checkout Guide &rarr;</a>
             </div>
           </div>
         </div>
@@ -626,6 +636,7 @@
         <div class="footer-col">
           <h4>Learn More</h4>
           <ul>
+            <li><a href="how-to-order.html">How to Order Guide</a></li>
             <li><a href="#features">What's Inside</a></li>
             <li><a href="#comparison">Savings Breakdown</a></li>
             <li><a href="#preview">Book Preview</a></li>
