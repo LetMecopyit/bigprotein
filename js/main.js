@@ -114,46 +114,56 @@ function initHeader() {
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // Mobile menu & backdrop overlay
+  // Clean up any stale backdrop element
+  const staleBackdrop = document.querySelector('.nav-backdrop');
+  if (staleBackdrop) staleBackdrop.remove();
+
+  // Mobile menu dropdown toggle
   const toggle = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.nav-links');
   if (toggle && nav) {
-    let backdrop = document.querySelector('.nav-backdrop');
-    if (!backdrop) {
-      backdrop = document.createElement('div');
-      backdrop.className = 'nav-backdrop';
-      document.body.appendChild(backdrop);
-    }
-
-    const setMenuOpen = (isOpen) => {
-      toggle.classList.toggle('active', isOpen);
-      nav.classList.toggle('open', isOpen);
-      backdrop.classList.toggle('active', isOpen);
-      document.body.classList.toggle('nav-menu-open', isOpen);
+    const closeMenu = () => {
+      toggle.classList.remove('active');
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
     };
 
     toggle.addEventListener('click', (e) => {
       e.stopPropagation();
-      setMenuOpen(!nav.classList.contains('open'));
+      const isOpen = nav.classList.toggle('open');
+      toggle.classList.toggle('active', isOpen);
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
 
-    backdrop.addEventListener('click', () => {
-      setMenuOpen(false);
-    });
-
-    // Close when clicking any menu link
+    // Close when clicking any menu link (allow browser to process navigation first)
     nav.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
-        setMenuOpen(false);
+        setTimeout(closeMenu, 120);
       });
     });
+
+    // Close when tapping outside the menu on mobile
+    const onOutsideTap = (e) => {
+      if (nav.classList.contains('open') && !nav.contains(e.target) && !toggle.contains(e.target)) {
+        closeMenu();
+      }
+    };
+    document.addEventListener('click', onOutsideTap);
+    document.addEventListener('touchstart', onOutsideTap, { passive: true });
 
     // Close with Escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && nav.classList.contains('open')) {
-        setMenuOpen(false);
+        closeMenu();
       }
     });
+
+    // Reset dropdown state when viewport resizes to desktop width
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768 && nav.classList.contains('open')) {
+        closeMenu();
+      }
+    }, { passive: true });
   }
 }
 
