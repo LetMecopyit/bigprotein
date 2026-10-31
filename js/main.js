@@ -3,12 +3,79 @@
    Payment Link: https://superprofile.bio/vp/big-protein-small-bill
    =================================================== */
 
-// --- Direct Checkout Link ---
+// --- Direct Checkout Link & VIP Coupon Code ---
 const CHECKOUT_URL = 'https://superprofile.bio/vp/big-protein-small-bill';
+const VIP_COUPON_CODE = 'FREEDRINK';
 
 function redirectToCheckout() {
+  autoCopyCoupon();
   window.open(CHECKOUT_URL, '_blank') || (window.location.href = CHECKOUT_URL);
 }
+
+function autoCopyCoupon() {
+  copyCouponCode(VIP_COUPON_CODE, null);
+}
+
+function copyCouponCode(code = VIP_COUPON_CODE, triggerBtn = null) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(code).then(() => {
+      showCopyFeedback(code, triggerBtn);
+    }).catch(() => {
+      fallbackCopy(code, triggerBtn);
+    });
+  } else {
+    fallbackCopy(code, triggerBtn);
+  }
+}
+
+function fallbackCopy(code, triggerBtn) {
+  const textArea = document.createElement('textarea');
+  textArea.value = code;
+  textArea.style.position = 'fixed';
+  textArea.style.opacity = '0';
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  try {
+    document.execCommand('copy');
+    showCopyFeedback(code, triggerBtn);
+  } catch (err) {}
+  document.body.removeChild(textArea);
+}
+
+function showCopyFeedback(code, triggerBtn) {
+  if (triggerBtn) {
+    const originalText = triggerBtn.innerHTML;
+    triggerBtn.classList.add('copied');
+    triggerBtn.innerHTML = '✓ Copied!';
+    setTimeout(() => {
+      triggerBtn.classList.remove('copied');
+      triggerBtn.innerHTML = originalText;
+    }, 2500);
+  }
+
+  let toast = document.getElementById('copy-floating-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'copy-floating-toast';
+    toast.className = 'copy-floating-toast';
+    document.body.appendChild(toast);
+  }
+  toast.innerHTML = `
+    <span class="toast-icon">✓</span>
+    <span>Code <strong>${code}</strong> copied! Paste at checkout for $1.00 OFF (Drink Book FREE)</span>
+  `;
+  toast.classList.add('show');
+  clearTimeout(window._copyToastTimer);
+  window._copyToastTimer = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 4000);
+}
+
+window.copyCouponCode = copyCouponCode;
+window.handleCheckoutClick = function(e, el) {
+  autoCopyCoupon();
+};
 
 // Global safety stubs for backward compatibility
 window.openCart = redirectToCheckout;
@@ -375,17 +442,20 @@ function initStickyFunnelBar() {
         <div class="sticky-info">
           <img src="images/cover.png" alt="Big Protein Cookbook" class="sticky-thumb">
           <div class="sticky-titles">
-            <div class="sticky-title">Big Protein, Small Bill</div>
-            <div class="sticky-sub">🎁 Includes FREE $8.00 Drink Ebook Today</div>
+            <div class="sticky-title">Big Protein + Drink Ebook</div>
+            <div class="sticky-sub">
+              <span>🎟️ Code: <strong>FREEDRINK</strong> ($1 OFF)</span>
+              <button class="sticky-copy-chip" onclick="copyCouponCode('FREEDRINK', this)">📋 Copy</button>
+            </div>
           </div>
         </div>
         <div class="sticky-action">
           <div class="sticky-price-group">
             <div class="sticky-price-curr">$24.99</div>
-            <div class="sticky-price-orig">$37.99</div>
+            <div class="sticky-price-orig">$45.99 Val</div>
           </div>
-          <a href="${CHECKOUT_URL}" target="_blank" rel="noopener noreferrer" class="btn-sticky-claim">
-            Claim Your Copy ➔
+          <a href="${CHECKOUT_URL}" target="_blank" rel="noopener noreferrer" class="btn-sticky-claim" onclick="handleCheckoutClick(event, this)">
+            Claim With Code ➔
           </a>
         </div>
       </div>
@@ -410,12 +480,12 @@ function initStickyFunnelBar() {
 
 // --- Live Social Proof System (120+ USA Customers, 48-Hour Cooldown) ---
 const USA_BUYERS_POOL = [
-  { id: 1, name: 'Liam M.', loc: 'Denver, CO', action: 'purchased Big Protein + Free Bonus' },
+  { id: 1, name: 'Liam M.', loc: 'Denver, CO', action: 'applied code FREEDRINK & unlocked Big Protein bundle' },
   { id: 2, name: 'Marcus T.', loc: 'Chicago, IL', action: 'downloaded the Complete Meal System' },
-  { id: 3, name: 'Elena R.', loc: 'Austin, TX', action: 'claimed Big Protein + Free Drink Ebook' },
+  { id: 3, name: 'Elena R.', loc: 'Austin, TX', action: 'used code FREEDRINK for $1.00 OFF drink book' },
   { id: 4, name: 'David K.', loc: 'Orlando, FL', action: 'purchased Big Protein, Small Bill' },
   { id: 5, name: 'Sarah W.', loc: 'Seattle, WA', action: 'unlocked the 7-Week Supermarket System' },
-  { id: 6, name: 'Chloe B.', loc: 'Charlotte, NC', action: 'purchased Big Protein + Free Bonus' },
+  { id: 6, name: 'Chloe B.', loc: 'Charlotte, NC', action: 'applied code FREEDRINK at checkout' },
   { id: 7, name: 'Brandon S.', loc: 'Phoenix, AZ', action: 'claimed the $24.99 Launch Bundle' },
   { id: 8, name: 'Rachel H.', loc: 'Columbus, OH', action: 'downloaded the 156-Page Cookbook' },
   { id: 9, name: 'Tyler J.', loc: 'Dallas, TX', action: 'purchased Big Protein + Free Bonus' },
@@ -552,6 +622,7 @@ function initCheckoutRedirects() {
 
   triggers.forEach(el => {
     el.addEventListener('click', (e) => {
+      autoCopyCoupon();
       if (el.tagName !== 'A' || !el.getAttribute('href') || el.getAttribute('href') === '#' || el.getAttribute('href') === '') {
         e.preventDefault();
         redirectToCheckout();

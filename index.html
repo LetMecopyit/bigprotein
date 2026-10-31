@@ -15,12 +15,16 @@
     <div class="funnel-announcement-inner">
       <div class="announcement-badge">
         <span class="announcement-pulse-dot"></span>
-        FLASH DEAL
+        🔥 VIP META EXCLUSIVE
       </div>
       <div class="announcement-text">
-        Order <strong>Big Protein, Small Bill</strong> today & get <em>Sip Smart, Spend Less</em> ($8.00 Value) <span class="free-tag">100% FREE</span>
+        Drink Ebook ($8 Val) is $1.00 at checkout → Use Code
+        <button class="coupon-pill" onclick="copyCouponCode('FREEDRINK', this)" title="Click to copy coupon code">
+          FREEDRINK <span class="copy-hint">📋 Copy</span>
+        </button>
+        for $1.00 OFF (100% FREE)!
       </div>
-      <a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" class="announcement-link">Claim Free Bonus Book →</a>
+      <a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" class="announcement-link" onclick="handleCheckoutClick(event, this)">Claim VIP Voucher →</a>
     </div>
   </div>
 
@@ -68,23 +72,44 @@
           Seven weeks of supermarket meals that hit <strong>120g of protein</strong> a day, for under <strong>$75 a week</strong>. Every recipe macro-tracked, every list priced at real Aldi & Walmart prices.
         </p>
 
-        <!-- Irresistible Free Gift Offer Box -->
-        <div class="hero-offer-box">
-          <div class="hero-offer-icon">🎁</div>
-          <div class="hero-offer-text">
-            <strong>SPECIAL LAUNCH GIFT INCLUDED TODAY:</strong>
-            Get the <em>"Sip Smart, Spend Less"</em> protein drink ebook ($8.00 value) added 100% FREE!
+        <!-- Irresistible VIP Voucher Ticket Box -->
+        <div class="hero-voucher-card">
+          <div class="voucher-header">
+            <span class="voucher-badge">🎟️ VIP META AD VOUCHER</span>
+            <span class="voucher-discount-pill">⚡ Drink Book: $1.00 ➔ <strong>$0.00 FREE</strong></span>
+          </div>
+          <div class="voucher-title">
+            <em>"Sip Smart, Spend Less"</em> ($8 Value) is marked to $1.00 on checkout.
+          </div>
+          <div class="voucher-subtext">
+            Use code below at checkout to subtract $1.00 — getting the bonus book <strong>100% FREE</strong>!
+          </div>
+          <div class="voucher-code-row">
+            <div class="voucher-code-meta">
+              <span class="voucher-code-label">PROMO VOUCHER CODE</span>
+              <span class="voucher-code-val">FREEDRINK</span>
+            </div>
+            <button class="btn-copy-code" onclick="copyCouponCode('FREEDRINK', this)">
+              <span>📋</span> Copy Code
+            </button>
+          </div>
+          <div class="voucher-steps">
+            <span class="voucher-step"><span class="voucher-step-num">1</span> Copy Code</span>
+            <span class="voucher-step-arrow">➔</span>
+            <span class="voucher-step"><span class="voucher-step-num">2</span> Order Book</span>
+            <span class="voucher-step-arrow">➔</span>
+            <span class="voucher-step"><span class="voucher-step-num">3</span> Paste for $1 OFF (FREE)</span>
           </div>
         </div>
 
         <div class="hero-price">
           <span class="price-current">$24.99</span>
-          <span class="price-original">$37.99 Value</span>
-          <span class="price-save">Save $13.00</span>
+          <span class="price-original">$45.99 Value</span>
+          <span class="price-save">Save $21.00</span>
         </div>
 
-        <a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" class="hero-cta funnel-btn-pulse">
-          ⚡ Get The Book + Free Bonus — $24.99 ➔
+        <a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" class="hero-cta funnel-btn-pulse" onclick="handleCheckoutClick(event, this)">
+          ⚡ Get The Book + Free Drink Bonus — $24.99 ➔
         </a>
 
         <div class="hero-trust-row">
@@ -295,10 +320,10 @@
             <li class="positive"><span class="icon">✓</span> 7 weeks of Aldi & Walmart grocery lists</li>
             <li class="positive"><span class="icon">✓</span> 15-minute night dinners (zero burnout)</li>
             <li class="positive"><span class="icon">✓</span> <strong>Saves you $200–$350+ every month</strong></li>
-            <li class="positive"><span class="icon">✓</span> Includes <strong>FREE $8 Bonus Drink Ebook</strong></li>
+            <li class="positive"><span class="icon">✓</span> Includes <strong>$8 Drink Ebook FREE</strong> with code <strong>FREEDRINK</strong></li>
           </ul>
-          <a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" class="hero-cta funnel-btn-pulse" style="display:inline-flex; justify-content:center; width:100%; animation:none; font-size:1rem; padding:0.9rem; text-decoration:none;">
-            ⚡ Get The Book + Free Bonus — $24.99 ➔
+          <a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" class="hero-cta funnel-btn-pulse" style="display:inline-flex; justify-content:center; width:100%; animation:none; font-size:1rem; padding:0.9rem; text-decoration:none;" onclick="handleCheckoutClick(event, this)">
+            ⚡ Claim Book + Apply Code FREEDRINK ➔
           </a>
         </div>
 
@@ -345,10 +370,10 @@
               <li>7 themed weekly meal plans</li>
               <li>60+ macro-tracked recipes</li>
               <li>Aisle-mapped Aldi & Walmart grocery lists</li>
-              <li><strong>🎁 FREE Bonus:</strong> Sip Smart, Spend Less ($8.00 Value)</li>
+              <li><strong>🎁 Drink Ebook:</strong> $1.00 on checkout ($0.00 FREE with code FREEDRINK)</li>
               <li>Instant digital download (Phone/Tablet/PC)</li>
             </ul>
-            <a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" class="btn-add-cart funnel-btn-pulse">
+            <a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" class="btn-add-cart funnel-btn-pulse" onclick="handleCheckoutClick(event, this)">
               ⚡ Get The Book + Free Bonus — $24.99 ➔
             </a>
           </div>
@@ -363,31 +388,39 @@
             <div class="pricing-card-title">Sip Smart, Spend Less</div>
             <p class="pricing-card-desc">4 budget-friendly protein drink recipes. Under $4 total, less than 5 minutes each. 14g real protein per serving.</p>
             <div class="pricing-card-price">
-              <span class="current">$8.00</span>
-              <span class="pricing-badge-free">FREE with Main Book</span>
+              <span class="current">$1.00</span>
+              <span class="original">$8.00 Value</span>
             </div>
+            <div class="pricing-coupon-callout">
+              🎟️ <strong>SECRET META PROMO:</strong> Apply coupon <strong>FREEDRINK</strong> at checkout for <strong>$1.00 OFF</strong> — making this ebook <strong>100% FREE ($0.00)</strong>!
+            </div>
+            <button class="btn-copy-code" style="width:100%; margin-bottom:var(--space-sm); justify-content:center;" onclick="copyCouponCode('FREEDRINK', this)">
+              📋 Copy Code: FREEDRINK
+            </button>
             <ul class="pricing-card-features">
               <li>4 protein drink recipes</li>
               <li>Under $1.10 per glass</li>
               <li>Less than 5 minutes to make</li>
               <li>No fancy equipment needed</li>
-              <li><strong>FREE</strong> when you buy Big Protein, Small Bill</li>
+              <li><strong>$0.00 FREE</strong> when you enter code FREEDRINK at checkout</li>
             </ul>
-            <a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" class="btn-add-cart">
-              Get FREE with Main Book — $24.99 ➔
-            </a>
-            <a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" class="btn-add-cart-solo">
-              Claim Complete Launch Pack ➔
+            <a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" class="btn-add-cart" onclick="handleCheckoutClick(event, this)">
+              Get FREE with Code FREEDRINK ➔
             </a>
           </div>
         </div>
       </div>
 
       <div class="savings-banner reveal">
-        <h3>$37.99 Total Value for Just $24.99</h3>
-        <p style="margin-bottom: var(--space-md);">Get both books and save $13.00 instantly. Click below to purchase securely through our official Cosmofeed / SuperProfile checkout.</p>
-        <a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" class="hero-cta" style="display:inline-flex; text-decoration:none; padding: 0.85rem 2.2rem; font-size:0.95rem;">
-          ⚡ Claim Bundle On Official Checkout ➔
+        <h3>Save $21.00 Today With Your VIP Meta Voucher</h3>
+        <div style="display:flex; justify-content:center; gap:var(--space-lg); margin: var(--space-md) auto; flex-wrap:wrap; max-width:640px; font-size:0.92rem;">
+          <div>📗 <strong>Big Protein System:</strong> $24.99 <span style="text-decoration:line-through; opacity:0.6;">($37.99)</span></div>
+          <div>🥤 <strong>Sip Smart Drink Book:</strong> $1.00 <span style="text-decoration:line-through; opacity:0.6;">($8.00)</span></div>
+          <div>🎟️ <strong>Code FREEDRINK:</strong> <span style="color:var(--color-success); font-weight:800;">-$1.00 OFF</span></div>
+        </div>
+        <p style="margin-bottom: var(--space-md);">Your drink book drops to <strong>$0.00 FREE</strong> when you enter code <strong>FREEDRINK</strong> on the payment gateway!</p>
+        <a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" class="hero-cta" style="display:inline-flex; text-decoration:none; padding: 0.85rem 2.2rem; font-size:0.95rem;" onclick="handleCheckoutClick(event, this)">
+          ⚡ Copy Code & Go to Official Checkout ➔
         </a>
       </div>
     </div>
@@ -494,6 +527,18 @@
       <div class="faq-list">
         <div class="faq-item reveal">
           <button class="faq-question">
+            How does the "FREEDRINK" coupon code work?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              On our official payment gateway, the <em>"Sip Smart, Spend Less"</em> drink ebook is listed at just <strong>$1.00</strong> (discounted from $8.00). Simply paste coupon code <strong>FREEDRINK</strong> in the promo/coupon box at checkout, and $1.00 will be instantly deducted — giving you the entire drink cookbook <strong>100% FREE ($0.00)</strong>!
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item reveal">
+          <button class="faq-question">
             What format is the book in?
             <span class="faq-icon">+</span>
           </button>
@@ -574,8 +619,8 @@
       <p style="color: rgba(249,246,240,0.6); max-width: 480px; margin: 0 auto var(--space-2xl);">
         One purchase. Seven weeks of meals. 120g+ protein daily. Under $75 a week.
       </p>
-      <a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" class="hero-cta funnel-btn-pulse" style="display:inline-flex; text-decoration:none; animation:none;">
-        ⚡ Get The Book + Free Bonus — $24.99 ➔
+      <a href="https://superprofile.bio/vp/big-protein-small-bill" target="_blank" rel="noopener noreferrer" class="hero-cta funnel-btn-pulse" style="display:inline-flex; text-decoration:none; animation:none;" onclick="handleCheckoutClick(event, this)">
+        ⚡ Claim Book + Free Drink Bonus With Code FREEDRINK ➔
       </a>
     </div>
   </section>
