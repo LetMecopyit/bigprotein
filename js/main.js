@@ -7,7 +7,16 @@
 const CHECKOUT_URL = 'https://superprofile.bio/vp/big-protein-small-bill';
 const VIP_COUPON_CODE = 'FREEDRINK';
 
+function trackPixelInitiateCheckout() {
+  if (typeof fbq === 'function') {
+    try {
+      fbq('track', 'InitiateCheckout');
+    } catch (err) {}
+  }
+}
+
 function redirectToCheckout() {
+  trackPixelInitiateCheckout();
   autoCopyCoupon();
   window.open(CHECKOUT_URL, '_blank') || (window.location.href = CHECKOUT_URL);
 }
@@ -74,6 +83,7 @@ function showCopyFeedback(code, triggerBtn) {
 
 window.copyCouponCode = copyCouponCode;
 window.handleCheckoutClick = function(e, el) {
+  trackPixelInitiateCheckout();
   autoCopyCoupon();
 };
 
